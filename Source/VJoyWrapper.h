@@ -42,7 +42,7 @@ typedef int(CALLBACK* acquireVJDFunction)(unsigned int);
 typedef void(CALLBACK* relinquishVJDFunction)(unsigned int);
 typedef int(CALLBACK* updateVJDFunction)(unsigned int, JOYSTICK_POSITION_V2);
 
-enum class Axes
+enum class VjoyAxis
 { 
     x, 
     y, 
@@ -59,7 +59,7 @@ public:
     ~VJoyWrapper();
 
     void setButton(const unsigned int& button_id, const bool& state);
-    void setAxis(const Axes& axis, const float& value);
+    void setAxis(const VjoyAxis& axis, const float& value);
     void sendInputs();
 
 private:

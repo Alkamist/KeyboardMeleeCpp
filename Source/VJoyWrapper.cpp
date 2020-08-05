@@ -52,26 +52,26 @@ static long getScaledAxisValue(const float& value)
     return long(value * 0x8000);
 }
 
-void VJoyWrapper::setAxis(const Axes& axis, const float& value)
+void VJoyWrapper::setAxis(const VjoyAxis& axis, const float& value)
 {
     switch (axis)
     {
-        case Axes::x:
+        case VjoyAxis::x:
             mJoystickData.wAxisX = getScaledAxisValue(value);
             break;
-        case Axes::y:
+        case VjoyAxis::y:
             mJoystickData.wAxisY = getScaledAxisValue(value);
             break;
-        case Axes::z:
+        case VjoyAxis::z:
             mJoystickData.wAxisZ = getScaledAxisValue(value);
             break;
-        case Axes::xRotation:
+        case VjoyAxis::xRotation:
             mJoystickData.wAxisXRot = getScaledAxisValue(value);
             break;
-        case Axes::yRotation:
+        case VjoyAxis::yRotation:
             mJoystickData.wAxisYRot = getScaledAxisValue(value);
             break;
-        case Axes::zRotation:
+        case VjoyAxis::zRotation:
             mJoystickData.wAxisZRot = getScaledAxisValue(value);
             break;
     }

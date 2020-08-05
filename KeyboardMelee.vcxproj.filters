@@ -1,14 +1,48 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="Test.cpp" />
-    <ClCompile Include="Button.cpp" />
-    <ClCompile Include="KeyboardKey.cpp" />
-    <ClCompile Include="VJoyWrapper.cpp" />
+    <Filter Include="Source">
+      <UniqueIdentifier>{3d548d50-bb97-4361-942c-59b526fbe50a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Button.h" />
-    <ClInclude Include="KeyboardKey.h" />
-    <ClInclude Include="VJoyWrapper.h" />
+    <ClCompile Include="Source\Button.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\KeyboardKey.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\VJoyWrapper.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\AnalogAxis.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Main.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\KeyboardMeleeController.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Source\Button.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\KeyboardKey.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\VJoyWrapper.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\AnalogAxis.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\KeyboardMeleeController.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\GameCubeControllerState.h">
+      <Filter>Source</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

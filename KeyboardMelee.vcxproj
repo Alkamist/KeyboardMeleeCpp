@@ -18,6 +18,22 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source\AnalogAxis.cpp" />
+    <ClCompile Include="Source\Button.cpp" />
+    <ClCompile Include="Source\KeyboardKey.cpp" />
+    <ClCompile Include="Source\KeyboardMeleeController.cpp" />
+    <ClCompile Include="Source\Main.cpp" />
+    <ClCompile Include="Source\VJoyWrapper.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Source\AnalogAxis.h" />
+    <ClInclude Include="Source\Button.h" />
+    <ClInclude Include="Source\GameCubeControllerState.h" />
+    <ClInclude Include="Source\KeyboardKey.h" />
+    <ClInclude Include="Source\KeyboardMeleeController.h" />
+    <ClInclude Include="Source\VJoyWrapper.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <ProjectGuid>{33ED05D2-C768-44D0-ABC1-42992FAA9A3D}</ProjectGuid>
@@ -122,17 +138,6 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="Button.cpp" />
-    <ClCompile Include="KeyboardKey.cpp" />
-    <ClCompile Include="Test.cpp" />
-    <ClCompile Include="VJoyWrapper.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Button.h" />
-    <ClInclude Include="KeyboardKey.h" />
-    <ClInclude Include="VJoyWrapper.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

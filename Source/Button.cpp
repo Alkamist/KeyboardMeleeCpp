@@ -4,7 +4,8 @@ Button::Button()
 {}
 
 Button::Button(const bool& state)
-    : mIsPressed(state)
+    : mIsPressed(state),
+      mWasPressed(state)
 {}
 
 void Button::setPressed(const bool& state)

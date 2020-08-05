@@ -19,4 +19,3 @@ private:
     bool mJustPressed{ false };
     bool mJustReleased{ false };
 };
-
