@@ -22,6 +22,7 @@
     <ClCompile Include="Source\AnalogAxis.cpp" />
     <ClCompile Include="Source\Button.cpp" />
     <ClCompile Include="Source\Keyboard.cpp" />
+    <ClCompile Include="Source\KeyboardMeleeController.cpp" />
     <ClCompile Include="Source\Main.cpp" />
     <ClCompile Include="Source\VJoyWrapper.cpp" />
   </ItemGroup>
@@ -30,6 +31,7 @@
     <ClInclude Include="Source\Button.h" />
     <ClInclude Include="Source\GameCubeControllerState.h" />
     <ClInclude Include="Source\Keyboard.h" />
+    <ClInclude Include="Source\KeyboardMeleeController.h" />
     <ClInclude Include="Source\VJoyWrapper.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
