@@ -1,8 +1,5 @@
 #include "Button.h"
 
-Button::Button()
-{}
-
 Button::Button(const bool& state)
     : mIsPressed(state),
       mWasPressed(state)

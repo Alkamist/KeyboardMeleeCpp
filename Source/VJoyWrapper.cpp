@@ -49,7 +49,8 @@ void VJoyWrapper::setButton(const unsigned int& button_id, const bool& state)
 
 static long getScaledAxisValue(const float& value)
 {
-    return long(value * 0x8000);
+    float scaledValue = 0.5f * (0.626f * value + 1.0f);
+    return long(scaledValue * 0x8000);
 }
 
 void VJoyWrapper::setAxis(const VjoyAxis& axis, const float& value)

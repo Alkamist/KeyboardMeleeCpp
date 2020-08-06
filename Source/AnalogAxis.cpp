@@ -5,11 +5,12 @@
 static float getAxisValueFromButtons(const Button& lowButton, const Button& highButton)
 {
     if (lowButton.justPressed() || (lowButton.isPressed() && !highButton.isPressed()))
-        return -1.0;
+        return -1.0f;
     else if (highButton.justPressed() || (highButton.isPressed() && !lowButton.isPressed()))
-        return 1.0;
+        return 1.0f;
     else if (!lowButton.isPressed() && !highButton.isPressed())
-        return 0.0;
+        return 0.0f;
+    return 0.0f;
 }
 
 AnalogAxis::AnalogAxis(const float& deadZone)
@@ -28,8 +29,8 @@ void AnalogAxis::setValue(const float& value)
     mIsActive = mMagnitude >= mDeadZone;
     mJustActivated = mIsActive && !mWasActive;
     mJustDeactivated = mWasActive && !mIsActive;
-    mJustCrossedCenter = (mValue < 0.0 && mPreviousValue >= 0.0) 
-                      || (mValue > 0.0 && mPreviousValue <= 0.0);
+    mJustCrossedCenter = (mValue < 0.0f && mPreviousValue >= 0.0f) 
+                      || (mValue > 0.0f && mPreviousValue <= 0.0f);
 
     if (mJustDeactivated || mJustCrossedCenter)
         mFramesActive = 0;

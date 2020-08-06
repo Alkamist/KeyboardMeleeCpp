@@ -5,11 +5,14 @@
 class KeyboardKey : public Button
 {
 public:
-    explicit KeyboardKey(const char& keyName);
+    KeyboardKey(){};
+    explicit KeyboardKey(const int& keyCode);
 
     void update();
 
+    void setKeyCode(const int& keyCode) { mKeyCode = keyCode; }
+
 private:
-    char mKeyCode{ 0x07 };
+    int mKeyCode{ 0x07 };
 };
 

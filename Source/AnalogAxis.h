@@ -5,6 +5,7 @@
 class AnalogAxis
 {
 public:
+    AnalogAxis(){};
     explicit AnalogAxis(const float& deadZone);
 
     void setValue(const float& value);
@@ -23,11 +24,11 @@ public:
     bool justCrossedCenter() const { return mJustCrossedCenter; }
 
 private:
-    float mValue{ 0.0 };
-    float mPreviousValue{ 0.0 };
-    float mMagnitude{ 0.0 };
-    float mPreviousMagnitude{ 0.0 };
-    float mDeadZone{ 0.2875 };
+    float mValue{ 0.0f };
+    float mPreviousValue{ 0.0f };
+    float mMagnitude{ 0.0f };
+    float mPreviousMagnitude{ 0.0f };
+    float mDeadZone{ 0.2875f };
 
     bool mIsActive{ false };
     bool mWasActive{ false };

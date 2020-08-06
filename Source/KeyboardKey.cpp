@@ -2,12 +2,12 @@
 
 #include <Windows.h>
 
-static bool keyIsPressed(const char& keyCode)
+static bool keyIsPressed(const int& keyCode)
 {
     return (GetKeyState(keyCode) & 0x8000) != 0;
 }
 
-KeyboardKey::KeyboardKey(const char& keyCode)
+KeyboardKey::KeyboardKey(const int& keyCode)
     : mKeyCode(keyCode)
 {}
 

@@ -3,7 +3,7 @@
 class Button
 {
 public:
-    Button();
+    Button(){};
     explicit Button(const bool& state);
 
     void setPressed(const bool& state);
