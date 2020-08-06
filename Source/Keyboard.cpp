@@ -1,54 +1,51 @@
 #include "Keyboard.h"
 
 #include <iostream>
+#include <Windows.h>
+
+std::array<bool, NUMBER_OF_KEYS> keyStates;
+std::array<Button, NUMBER_OF_KEYS> Keyboard::keys;
 
 static LRESULT CALLBACK KeyboardHook(int nCode, WPARAM wParam, LPARAM lParam)
 {
-    BOOL fEatKeystroke = FALSE;
+    int eatKeystroke = 0;
 
     if (nCode == HC_ACTION)
     {
-        switch (wParam)
-        {
-            case WM_KEYDOWN:
-            case WM_SYSKEYDOWN:
-            case WM_KEYUP:
-            case WM_SYSKEYUP:
-                PKBDLLHOOKSTRUCT p = (PKBDLLHOOKSTRUCT)lParam;
+        PKBDLLHOOKSTRUCT p = (PKBDLLHOOKSTRUCT)lParam;
+        eatKeystroke = 1;
+        unsigned long keyCode = p->vkCode;
 
-                if (fEatKeystroke = (p->vkCode == 0x41))
-                {
-                    if ((wParam == WM_KEYDOWN) || (wParam == WM_SYSKEYDOWN))
-                    {
-                        std::cout << p->vkCode << std::endl;
-                        //keybd_event('B', 0, 0, 0);
-                    }
-                    else if ((wParam == WM_KEYUP) || (wParam == WM_SYSKEYUP))
-                    {
-                        //keybd_event('B', 0, KEYEVENTF_KEYUP, 0);
-                    }
-                    break;
-                }
-                break;
+        if ((wParam == WM_KEYDOWN) || (wParam == WM_SYSKEYDOWN))
+        {
+            //std::cout << keyCode << std::endl;
+            keyStates[keyCode] = true;
+        }
+        else if ((wParam == WM_KEYUP) || (wParam == WM_SYSKEYUP))
+        {
+            //std::cout << keyCode << std::endl;
+            keyStates[keyCode] = false;
         }
     }
-    return(fEatKeystroke ? 1 : CallNextHookEx(NULL, nCode, wParam, lParam));
+
+    if (!eatKeystroke)
+        return CallNextHookEx(NULL, nCode, wParam, lParam);
+
+    return 1;
 }
 
-Keyboard::Keyboard()
-{
-    mKeyboardHook = SetWindowsHookEx(WH_KEYBOARD_LL, KeyboardHook, 0, 0);
-}
-
-Keyboard::~Keyboard()
-{
-    UnhookWindowsHookEx(mKeyboardHook);
-}
+static HHOOK keyboardHook = SetWindowsHookEx(WH_KEYBOARD_LL, KeyboardHook, 0, 0);
 
 void Keyboard::update()
 {
     MSG msg;
-    GetMessage(&msg, NULL, NULL, NULL);
+    //GetMessage(&msg, NULL, NULL, NULL);
+    PeekMessage(&msg, NULL, NULL, NULL, NULL);
     TranslateMessage(&msg);
     DispatchMessage(&msg);
+
+    for (int i = 0; i < NUMBER_OF_KEYS; ++i)
+    {
+        Keyboard::keys[i].setPressed(keyStates[i]);
+    }
 }

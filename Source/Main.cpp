@@ -3,7 +3,7 @@
 #include <chrono>
 
 #include "VJoyWrapper.h"
-#include "KeyboardMeleeController.h"
+//#include "KeyboardMeleeController.h"
 
 //auto vJoyWrapper = VJoyWrapper("C:\\Program Files\\vJoy\\x64\\vJoyInterface.dll", 1);
 //auto controller = KeyboardMeleeController();
@@ -44,14 +44,18 @@
 
 #include "Keyboard.h"
 
-auto keyboard = Keyboard();
-
 int main()
 {
     while (1)
     {
-        keyboard.update();
+        Keyboard::update();
+        //if (Keyboard::keys[187].justPressed())
+        //    std::cout << "on" << std::endl;
+        //if (Keyboard::keys[187].justReleased())
+        //    std::cout << "off" << std::endl;
+
+        std::this_thread::sleep_for(std::chrono::microseconds(100));
     }
 
-    return(0);
+    return 0;
 }

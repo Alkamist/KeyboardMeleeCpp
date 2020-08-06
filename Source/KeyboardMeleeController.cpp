@@ -3,31 +3,14 @@
 #include <Windows.h>
 
 KeyboardMeleeController::KeyboardMeleeController()
-{
-    mActionStates[ActionName::down].setKeyCode('S');
-    mActionStates[ActionName::up].setKeyCode('W');
-    mActionStates[ActionName::left].setKeyCode('A');
-    mActionStates[ActionName::right].setKeyCode('D');
-    mActionStates[ActionName::cDown].setKeyCode(VK_OEM_7);
-    mActionStates[ActionName::cUp].setKeyCode('P');
-    mActionStates[ActionName::cLeft].setKeyCode('L');
-    mActionStates[ActionName::cRight].setKeyCode(VK_OEM_2);
-    mActionStates[ActionName::shortHop].setKeyCode(VK_OEM_4);
-    mActionStates[ActionName::fullHop].setKeyCode(VK_OEM_5);
-    mActionStates[ActionName::a].setKeyCode(VK_RWIN);
-    mActionStates[ActionName::b].setKeyCode(VK_RMENU);
-    mActionStates[ActionName::z].setKeyCode(187);
-    mActionStates[ActionName::shield].setKeyCode(VK_OEM_6);
-    mActionStates[ActionName::airDodge].setKeyCode(VK_OEM_1);
-    mActionStates[ActionName::start].setKeyCode('5');
-}
+{}
 
 void KeyboardMeleeController::update()
 {
-    for (int i = 0; i < mActionStates.size(); ++i)
-    {
-        mActionStates[i].update();
-    }
+    //for (int i = 0; i < mActionStates.size(); ++i)
+    //{
+    //    mActionStates[i].update();
+    //}
 
     mXAxisRaw.setValueFromButtons(mActionStates[ActionName::left], mActionStates[ActionName::right]);
     mYAxisRaw.setValueFromButtons(mActionStates[ActionName::down], mActionStates[ActionName::up]);

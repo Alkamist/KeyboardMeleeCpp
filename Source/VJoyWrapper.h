@@ -70,4 +70,3 @@ private:
     relinquishVJDFunction mRelinquishVJD;
     updateVJDFunction mUpdateVJD;
 };
-

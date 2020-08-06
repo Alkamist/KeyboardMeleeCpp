@@ -1,17 +1,14 @@
 #pragma once
 
-#include <Windows.h>
+#include <array>
 
 #include "Button.h"
 
-class Keyboard
+#define NUMBER_OF_KEYS 256
+
+namespace Keyboard
 {
-public:
-    Keyboard();
-    ~Keyboard();
+    extern std::array<Button, NUMBER_OF_KEYS> keys;
 
     void update();
-
-private:
-    HHOOK mKeyboardHook;
-};
+}

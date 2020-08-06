@@ -5,7 +5,6 @@
 #include "GameCubeControllerState.h"
 #include "Button.h"
 #include "AnalogAxis.h"
-#include "KeyboardKey.h"
 
 class KeyboardMeleeController
 {
@@ -39,11 +38,10 @@ public:
 private:
     GameCubeControllerState mControllerState;
 
-    std::array<KeyboardKey, 16> mActionStates;
+    std::array<Button, 16> mActionStates;
 
     AnalogAxis mXAxisRaw;
     AnalogAxis mYAxisRaw;
     AnalogAxis mCXAxisRaw;
     AnalogAxis mCYAxisRaw;
 };
-
