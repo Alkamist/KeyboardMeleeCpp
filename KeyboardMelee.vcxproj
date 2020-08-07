@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\AirDodgeStick.cpp" />
     <ClCompile Include="Source\AnalogAxis.cpp" />
     <ClCompile Include="Source\AnalogStick.cpp" />
     <ClCompile Include="Source\Button.cpp" />
@@ -32,6 +33,7 @@
     <ClCompile Include="Source\VJoyWrapper.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\AirDodgeStick.h" />
     <ClInclude Include="Source\AnalogAxis.h" />
     <ClInclude Include="Source\AnalogStick.h" />
     <ClInclude Include="Source\Button.h" />

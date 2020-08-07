@@ -14,8 +14,8 @@ private:
     bool mShortHopOutput{ false };
     bool mFullHopOutput{ false };
 
-    Button mShortHopButton;
-    Button mFullHopButton;
+    Button mShortHopInput;
+    Button mFullHopInput;
 
     bool mIsShortHopping{ false };
     bool mIsFullHopping{ false };

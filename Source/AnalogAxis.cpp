@@ -6,6 +6,13 @@ static float absoluteValue(const float& value)
     return value;
 }
 
+static float normalize(const float& value)
+{
+    if (value > 0.0f) return 1.0;
+    if (value < 0.0f) return -1.0;
+    return value;
+}
+
 static float sign(const float& value)
 {
     if (value < 0.0f) return -1.0f;
@@ -35,6 +42,7 @@ void AnalogAxis::setValue(const float& value)
     mValue = value;
     mMagnitude = absoluteValue(mValue);
     mSign = sign(mValue);
+    mNormalizedValue = normalize(mValue);
 
     mWasActive = mIsActive;
     mIsActive = mMagnitude >= mDeadZone;

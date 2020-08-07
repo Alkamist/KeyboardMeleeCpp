@@ -17,6 +17,7 @@ public:
     float getValue() const { return mValue; }
     float getMagnitude() const { return mMagnitude; }
     float getSign() const { return mSign; }
+    float getNormalizedValue() const{ return mNormalizedValue; }
 
     bool isActive() const { return mIsActive; }
     bool wasActive() const { return mWasActive; }
@@ -29,6 +30,7 @@ private:
     float mPreviousValue{ 0.0f };
     float mMagnitude{ 0.0f };
     float mPreviousMagnitude{ 0.0f };
+    float mNormalizedValue{ 0.0f };
     float mSign{ 1.0f };
     float mDeadZone{ 0.2875f };
 

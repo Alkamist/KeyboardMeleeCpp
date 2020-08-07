@@ -4,12 +4,12 @@
 
 void JumpLogic::update(const bool& shortHopState, const bool& fullHopState)
 {
-    mShortHopButton.setPressed(shortHopState);
-    mFullHopButton.setPressed(fullHopState);
+    mShortHopInput.setPressed(shortHopState);
+    mFullHopInput.setPressed(fullHopState);
 
 
     // Short hop handling.
-    bool startShortHop = mShortHopButton.justPressed() || (mIsFullHopping && mFullHopButton.justPressed());
+    bool startShortHop = mShortHopInput.justPressed() || (mIsFullHopping && mFullHopInput.justPressed());
 
     if (startShortHop)
     {
@@ -26,7 +26,7 @@ void JumpLogic::update(const bool& shortHopState, const bool& fullHopState)
 
 
     // Full hop handling.
-    bool startFullHop = mFullHopButton.justPressed();
+    bool startFullHop = mFullHopInput.justPressed();
 
     if (startFullHop)
     {
@@ -35,7 +35,7 @@ void JumpLogic::update(const bool& shortHopState, const bool& fullHopState)
         mFullHopTime = millis();
     }
 
-    if (mIsFullHopping && (!mFullHopButton.isPressed()))
+    if (mIsFullHopping && (!mFullHopInput.isPressed()))
     {
         if (millis() - mFullHopTime >= 134)
             mFullHopOutput = false;

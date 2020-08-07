@@ -5,6 +5,7 @@
 #include "AnalogAxis.h"
 #include "JumpLogic.h"
 #include "TiltStick.h"
+#include "AirDodgeStick.h"
 
 class DigitalMeleeController
 {
@@ -52,4 +53,5 @@ private:
     JumpLogic mJumpLogic;
 
     TiltStick mTiltStick{ 0.65f };
+    AirDodgeStick mAirDodgeStick;
 };
