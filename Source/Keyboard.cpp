@@ -3,7 +3,7 @@
 #include <iostream>
 #include <Windows.h>
 
-std::array<bool, NUMBER_OF_KEYS> keyStates;
+static std::array<bool, NUMBER_OF_KEYS> keyStates;
 std::array<Button, NUMBER_OF_KEYS> Keyboard::keys;
 
 static LRESULT CALLBACK KeyboardHook(int nCode, WPARAM wParam, LPARAM lParam)

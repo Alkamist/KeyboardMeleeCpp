@@ -2,6 +2,7 @@
 
 #include <array>
 
+#include "Keyboard.h"
 #include "GameCubeControllerState.h"
 #include "Button.h"
 #include "AnalogAxis.h"
@@ -13,24 +14,24 @@ public:
 
     void update();
 
-    enum ActionName
+    enum Action
     {
-        left,
-        right,
-        down,
-        up,
-        cLeft,
-        cRight,
-        cDown,
-        cUp,
-        shortHop,
-        fullHop,
-        a,
-        b,
-        z,
-        shield,
-        airDodge,
-        start,
+        Action_left,
+        Action_right,
+        Action_down,
+        Action_up,
+        Action_cLeft,
+        Action_cRight,
+        Action_cDown,
+        Action_cUp,
+        Action_shortHop,
+        Action_fullHop,
+        Action_a,
+        Action_b,
+        Action_z,
+        Action_shield,
+        Action_airDodge,
+        Action_start,
     };
 
     const GameCubeControllerState& getState() const { return mControllerState; }
@@ -39,6 +40,7 @@ private:
     GameCubeControllerState mControllerState;
 
     std::array<Button, 16> mActionStates;
+    std::array<int, NUMBER_OF_KEYS> mKeyActions;
 
     AnalogAxis mXAxisRaw;
     AnalogAxis mYAxisRaw;
