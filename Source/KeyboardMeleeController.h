@@ -32,14 +32,17 @@ public:
         Action_shield,
         Action_airDodge,
         Action_start,
+        Action_toggleController,
     };
 
     const GameCubeControllerState& getState() const { return mControllerState; }
 
 private:
+    bool mIsEnabled{ true };
+
     GameCubeControllerState mControllerState;
 
-    std::array<Button, 16> mActionStates;
+    std::array<Button, 17> mActionStates;
     std::array<int, NUMBER_OF_KEYS> mKeyActions;
 
     AnalogAxis mXAxisRaw;

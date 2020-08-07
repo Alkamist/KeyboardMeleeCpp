@@ -1,9 +1,7 @@
-#include <iostream>
 #include <thread>
 #include <chrono>
 
 #include "VJoyWrapper.h"
-#include "Keyboard.h"
 #include "KeyboardMeleeController.h"
 
 auto vJoyWrapper = VJoyWrapper("C:\\Program Files\\vJoy\\x64\\vJoyInterface.dll", 1);
@@ -13,7 +11,6 @@ int main()
 {
     while (1)
     {
-        Keyboard::update();
         controller.update();
         auto controllerState = controller.getState();
     
@@ -40,6 +37,5 @@ int main()
         std::this_thread::sleep_for(std::chrono::microseconds(100));
     }
 
-    std::cin.get();
     return 0;
 }

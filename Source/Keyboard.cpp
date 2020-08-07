@@ -3,22 +3,24 @@
 #include <iostream>
 #include <Windows.h>
 
+bool Keyboard::blockKeyPresses = true;
+
 static std::array<bool, NUMBER_OF_KEYS> keyStates;
 std::array<Button, NUMBER_OF_KEYS> Keyboard::keys;
 
 static LRESULT CALLBACK KeyboardHook(int nCode, WPARAM wParam, LPARAM lParam)
 {
-    int eatKeystroke = 0;
+    int blockKeyPress = 0;
 
     if (nCode == HC_ACTION)
     {
         PKBDLLHOOKSTRUCT p = (PKBDLLHOOKSTRUCT)lParam;
-        eatKeystroke = 1;
+        blockKeyPress = static_cast<int>(Keyboard::blockKeyPresses);
         unsigned long keyCode = p->vkCode;
 
         if ((wParam == WM_KEYDOWN) || (wParam == WM_SYSKEYDOWN))
         {
-            //std::cout << keyCode << std::endl;
+            std::cout << keyCode << std::endl;
             keyStates[keyCode] = true;
         }
         else if ((wParam == WM_KEYUP) || (wParam == WM_SYSKEYUP))
@@ -28,7 +30,7 @@ static LRESULT CALLBACK KeyboardHook(int nCode, WPARAM wParam, LPARAM lParam)
         }
     }
 
-    if (!eatKeystroke)
+    if (!blockKeyPress)
         return CallNextHookEx(NULL, nCode, wParam, lParam);
 
     return 1;

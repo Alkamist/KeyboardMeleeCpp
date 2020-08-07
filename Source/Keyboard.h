@@ -8,6 +8,7 @@
 
 namespace Keyboard
 {
+    extern bool blockKeyPresses;
     extern std::array<Button, NUMBER_OF_KEYS> keys;
 
     void update();
