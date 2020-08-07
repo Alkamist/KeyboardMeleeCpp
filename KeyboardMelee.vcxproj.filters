@@ -33,6 +33,12 @@
     <ClCompile Include="Source\Millis.cpp">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="Source\AnalogStick.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\TiltStick.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Button.h">
@@ -60,6 +66,12 @@
       <Filter>Source</Filter>
     </ClInclude>
     <ClInclude Include="Source\Millis.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\AnalogStick.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\TiltStick.h">
       <Filter>Source</Filter>
     </ClInclude>
   </ItemGroup>

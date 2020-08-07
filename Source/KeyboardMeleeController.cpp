@@ -30,6 +30,8 @@ KeyboardMeleeController::KeyboardMeleeController()
     mKeyActions[220] = mController.Action_fullHop;
 
     mKeyActions[53] = mController.Action_start;
+
+    mKeyActions[20] = mController.Action_tilt;
 }
 
 void KeyboardMeleeController::update()

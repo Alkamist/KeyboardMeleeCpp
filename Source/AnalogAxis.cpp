@@ -6,6 +6,12 @@ static float absoluteValue(const float& value)
     return value;
 }
 
+static float sign(const float& value)
+{
+    if (value < 0.0f) return -1.0f;
+    return 1.0f;
+}
+
 static float getAxisValueFromButtons(const Button& lowButton, const Button& highButton)
 {
     if (lowButton.justPressed() || (lowButton.isPressed() && !highButton.isPressed()))
@@ -28,6 +34,7 @@ void AnalogAxis::setValue(const float& value)
 
     mValue = value;
     mMagnitude = absoluteValue(mValue);
+    mSign = sign(mValue);
 
     mWasActive = mIsActive;
     mIsActive = mMagnitude >= mDeadZone;
@@ -35,11 +42,6 @@ void AnalogAxis::setValue(const float& value)
     mJustDeactivated = mWasActive && !mIsActive;
     mJustCrossedCenter = (mValue < 0.0f && mPreviousValue >= 0.0f) 
                       || (mValue > 0.0f && mPreviousValue <= 0.0f);
-
-    if (mJustDeactivated || mJustCrossedCenter)
-        mFramesActive = 0;
-    else
-        ++mFramesActive;
 }
 
 void AnalogAxis::setValueFromButtons(const Button& lowButton, const Button& highButton)

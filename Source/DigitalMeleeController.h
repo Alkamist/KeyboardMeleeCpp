@@ -4,6 +4,7 @@
 #include "Button.h"
 #include "AnalogAxis.h"
 #include "JumpLogic.h"
+#include "TiltStick.h"
 
 class DigitalMeleeController
 {
@@ -32,6 +33,7 @@ public:
         Action_shield,
         Action_airDodge,
         Action_start,
+        Action_tilt,
     };
 
     const GameCubeControllerState& getState() const { return mControllerState; }
@@ -39,7 +41,7 @@ public:
 private:
     GameCubeControllerState mControllerState;
 
-    Button mActionStates[16];
+    Button mActionStates[17];
 
     AnalogAxis mXAxisRaw;
     AnalogAxis mYAxisRaw;
@@ -48,4 +50,6 @@ private:
 
     bool mUseShortHopMacro{ true };
     JumpLogic mJumpLogic;
+
+    TiltStick mTiltStick{ 0.65f };
 };

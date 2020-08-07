@@ -10,10 +10,17 @@ void DigitalMeleeController::update()
     mCXAxisRaw.setValueFromButtons(mActionStates[Action_cLeft], mActionStates[Action_cRight]);
     mCYAxisRaw.setValueFromButtons(mActionStates[Action_cDown], mActionStates[Action_cUp]);
 
-    mControllerState.xAxis.setValue(mXAxisRaw.getValue());
-    mControllerState.yAxis.setValue(mYAxisRaw.getValue());
+    //mControllerState.xAxis.setValue(mXAxisRaw.getValue());
+    //mControllerState.yAxis.setValue(mYAxisRaw.getValue());
     mControllerState.cXAxis.setValue(mCXAxisRaw.getValue());
     mControllerState.cYAxis.setValue(mCYAxisRaw.getValue());
+
+    // Handle tilt stick logic.
+    mTiltStick.xAxis.setValue(mXAxisRaw.getValue());
+    mTiltStick.yAxis.setValue(mYAxisRaw.getValue());
+    mTiltStick.update(mActionStates[Action_tilt].isPressed(), mActionStates[Action_tilt].justPressed());
+    mControllerState.xAxis.setValue(mTiltStick.xAxis.getValue());
+    mControllerState.yAxis.setValue(mTiltStick.yAxis.getValue());
 
     mControllerState.aButton.setPressed(mActionStates[Action_a].isPressed());
     mControllerState.bButton.setPressed(mActionStates[Action_b].isPressed());
@@ -26,6 +33,7 @@ void DigitalMeleeController::update()
     mControllerState.dDownButton.setPressed(false);
     mControllerState.dUpButton.setPressed(false);
 
+    // Handle short hop and full hop logic.
     if (mUseShortHopMacro)
     {
         mJumpLogic.update(mActionStates[Action_shortHop].isPressed(), mActionStates[Action_fullHop].isPressed());

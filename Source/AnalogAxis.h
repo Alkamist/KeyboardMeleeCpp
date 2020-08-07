@@ -12,10 +12,11 @@ public:
     void setValueFromButtons(const Button& lowButton, const Button& highButton);
 
     void setDeadZone(const float& value) { mDeadZone = value; }
+    float getDeadZone() const { return mDeadZone; }
 
     float getValue() const { return mValue; }
     float getMagnitude() const { return mMagnitude; }
-    unsigned char getFramesActive() const { return mFramesActive; }
+    float getSign() const { return mSign; }
 
     bool isActive() const { return mIsActive; }
     bool wasActive() const { return mWasActive; }
@@ -28,6 +29,7 @@ private:
     float mPreviousValue{ 0.0f };
     float mMagnitude{ 0.0f };
     float mPreviousMagnitude{ 0.0f };
+    float mSign{ 1.0f };
     float mDeadZone{ 0.2875f };
 
     bool mIsActive{ false };
@@ -35,6 +37,4 @@ private:
     bool mJustActivated{ false };
     bool mJustDeactivated{ false };
     bool mJustCrossedCenter{ false };
-
-    unsigned char mFramesActive{ 0 };
 };
