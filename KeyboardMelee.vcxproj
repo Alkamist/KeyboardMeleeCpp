@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="Source\AnalogAxis.cpp" />
     <ClCompile Include="Source\Button.cpp" />
+    <ClCompile Include="Source\DigitalMeleeController.cpp" />
     <ClCompile Include="Source\Keyboard.cpp" />
     <ClCompile Include="Source\KeyboardMeleeController.cpp" />
     <ClCompile Include="Source\Main.cpp" />
@@ -29,6 +30,7 @@
   <ItemGroup>
     <ClInclude Include="Source\AnalogAxis.h" />
     <ClInclude Include="Source\Button.h" />
+    <ClInclude Include="Source\DigitalMeleeController.h" />
     <ClInclude Include="Source\GameCubeControllerState.h" />
     <ClInclude Include="Source\Keyboard.h" />
     <ClInclude Include="Source\KeyboardMeleeController.h" />

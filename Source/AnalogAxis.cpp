@@ -1,6 +1,10 @@
 #include "AnalogAxis.h"
 
-#include <cstdlib>
+static float absoluteValue(const float& value)
+{
+    if (value < 0.0f) return -value;
+    return value;
+}
 
 static float getAxisValueFromButtons(const Button& lowButton, const Button& highButton)
 {
@@ -23,7 +27,7 @@ void AnalogAxis::setValue(const float& value)
     mPreviousMagnitude = mMagnitude;
 
     mValue = value;
-    mMagnitude = abs(mValue);
+    mMagnitude = absoluteValue(mValue);
 
     mWasActive = mIsActive;
     mIsActive = mMagnitude >= mDeadZone;
