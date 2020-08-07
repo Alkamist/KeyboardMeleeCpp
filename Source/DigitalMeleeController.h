@@ -3,6 +3,7 @@
 #include "GameCubeControllerState.h"
 #include "Button.h"
 #include "AnalogAxis.h"
+#include "JumpLogic.h"
 
 class DigitalMeleeController
 {
@@ -44,4 +45,7 @@ private:
     AnalogAxis mYAxisRaw;
     AnalogAxis mCXAxisRaw;
     AnalogAxis mCYAxisRaw;
+
+    bool mUseShortHopMacro{ true };
+    JumpLogic mJumpLogic;
 };

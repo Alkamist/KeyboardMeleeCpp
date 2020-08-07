@@ -27,6 +27,12 @@
     <ClCompile Include="Source\DigitalMeleeController.cpp">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="Source\JumpLogic.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Millis.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Button.h">
@@ -48,6 +54,12 @@
       <Filter>Source</Filter>
     </ClInclude>
     <ClInclude Include="Source\DigitalMeleeController.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\JumpLogic.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Millis.h">
       <Filter>Source</Filter>
     </ClInclude>
   </ItemGroup>

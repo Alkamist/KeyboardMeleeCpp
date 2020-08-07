@@ -18,8 +18,6 @@ void DigitalMeleeController::update()
     mControllerState.aButton.setPressed(mActionStates[Action_a].isPressed());
     mControllerState.bButton.setPressed(mActionStates[Action_b].isPressed());
     mControllerState.zButton.setPressed(mActionStates[Action_z].isPressed());
-    mControllerState.xButton.setPressed(mActionStates[Action_fullHop].isPressed());
-    mControllerState.yButton.setPressed(mActionStates[Action_shortHop].isPressed());
     mControllerState.lButton.setPressed(mActionStates[Action_airDodge].isPressed());
     mControllerState.rButton.setPressed(mActionStates[Action_shield].isPressed());
     mControllerState.startButton.setPressed(mActionStates[Action_start].isPressed());
@@ -27,6 +25,18 @@ void DigitalMeleeController::update()
     mControllerState.dRightButton.setPressed(false);
     mControllerState.dDownButton.setPressed(false);
     mControllerState.dUpButton.setPressed(false);
+
+    if (mUseShortHopMacro)
+    {
+        mJumpLogic.update(mActionStates[Action_shortHop].isPressed(), mActionStates[Action_fullHop].isPressed());
+        mControllerState.xButton.setPressed(mJumpLogic.getFullHopOutput());
+        mControllerState.yButton.setPressed(mJumpLogic.getShortHopOutput());
+    }
+    else
+    {
+        mControllerState.xButton.setPressed(mActionStates[Action_fullHop].isPressed());
+        mControllerState.yButton.setPressed(mActionStates[Action_shortHop].isPressed());
+    }
 }
 
 void DigitalMeleeController::setActionState(const int& actionID, const bool& actionState)
