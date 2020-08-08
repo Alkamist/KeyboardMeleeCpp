@@ -20,7 +20,9 @@ KeyboardMeleeController::KeyboardMeleeController()
     m_keyActions[191] = m_controller.Action_cRight;
 
     m_keyActions[92] = m_controller.Action_a;
-    m_keyActions[165] = m_controller.Action_b;
+    m_keyActions[165] = m_controller.Action_bNeutralDown;
+    m_keyActions[8] = m_controller.Action_bUp;
+    m_keyActions[13] = m_controller.Action_bSide;
     m_keyActions[187] = m_controller.Action_z;
 
     m_keyActions[221] = m_controller.Action_shield;

@@ -23,6 +23,7 @@
     <ClCompile Include="Source\AnalogAxis.cpp" />
     <ClCompile Include="Source\AnalogStick.cpp" />
     <ClCompile Include="Source\AStick.cpp" />
+    <ClCompile Include="Source\BStick.cpp" />
     <ClCompile Include="Source\Button.cpp" />
     <ClCompile Include="Source\DelayedButton.cpp" />
     <ClCompile Include="Source\DigitalMeleeController.cpp" />
@@ -39,6 +40,7 @@
     <ClInclude Include="Source\AnalogAxis.h" />
     <ClInclude Include="Source\AnalogStick.h" />
     <ClInclude Include="Source\AStick.h" />
+    <ClInclude Include="Source\BStick.h" />
     <ClInclude Include="Source\Button.h" />
     <ClInclude Include="Source\DelayedButton.h" />
     <ClInclude Include="Source\DigitalMeleeController.h" />

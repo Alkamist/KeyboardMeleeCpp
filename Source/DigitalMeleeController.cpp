@@ -11,6 +11,7 @@ void DigitalMeleeController::update()
     float cYAxisOutput = 0.0f;
 
     bool aOutput = m_actionStates[Action_a].isPressed();
+    bool bOutput = false;
 
     m_xAxisRaw.setValueFromButtons(m_actionStates[Action_left], m_actionStates[Action_right]);
     m_yAxisRaw.setValueFromButtons(m_actionStates[Action_down], m_actionStates[Action_up]);
@@ -64,6 +65,25 @@ void DigitalMeleeController::update()
     xAxisOutput = m_tiltStick.xAxis.getValue();
     yAxisOutput = m_tiltStick.yAxis.getValue();
 
+    // Handle B stick logic.
+    if (xAxisOutput > 0.0f)
+        m_previousDirectionIsRight = true;
+    else if (xAxisOutput < 0.0f)
+        m_previousDirectionIsRight = false;
+
+    m_bStick.xAxis.setValue(xAxisOutput);
+    m_bStick.yAxis.setValue(yAxisOutput);
+    m_bStick.update(m_actionStates[Action_shield].isPressed(),
+                    m_actionStates[Action_bNeutralDown].isPressed() && !m_actionStates[Action_down].isPressed(),
+                    m_actionStates[Action_bSide].isPressed() && !m_previousDirectionIsRight,
+                    m_actionStates[Action_bSide].isPressed() && m_previousDirectionIsRight,
+                    m_actionStates[Action_bNeutralDown].isPressed() && m_actionStates[Action_down].isPressed(),
+                    m_actionStates[Action_bUp].isPressed());
+
+    bOutput = m_bStick.outputButton.isPressed();
+    xAxisOutput = m_bStick.xAxis.getValue();
+    yAxisOutput = m_bStick.yAxis.getValue();
+
     // Handle shield tilt stick logic.
     m_shieldTiltStick.xAxis.setValue(xAxisOutput);
     m_shieldTiltStick.yAxis.setValue(yAxisOutput);
@@ -86,7 +106,7 @@ void DigitalMeleeController::update()
 
     // Update controller button states.
     m_controllerState.aButton.setPressed(aOutput);
-    m_controllerState.bButton.setPressed(m_actionStates[Action_b].isPressed());
+    m_controllerState.bButton.setPressed(bOutput);
     m_controllerState.zButton.setPressed(m_actionStates[Action_z].isPressed());
     m_controllerState.lButton.setPressed(m_actionStates[Action_airDodge].isPressed());
     m_controllerState.rButton.setPressed(m_actionStates[Action_shield].isPressed());

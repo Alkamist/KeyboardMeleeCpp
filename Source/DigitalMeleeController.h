@@ -7,6 +7,7 @@
 #include "TiltStick.h"
 #include "AirDodgeStick.h"
 #include "AStick.h"
+#include "BStick.h"
 
 class DigitalMeleeController
 {
@@ -30,7 +31,9 @@ public:
         Action_shortHop,
         Action_fullHop,
         Action_a,
-        Action_b,
+        Action_bNeutralDown,
+        Action_bUp,
+        Action_bSide,
         Action_z,
         Action_shield,
         Action_airDodge,
@@ -43,7 +46,7 @@ public:
 private:
     GameCubeControllerState m_controllerState;
 
-    Button m_actionStates[17];
+    Button m_actionStates[19];
 
     AnalogAxis m_xAxisRaw;
     AnalogAxis m_yAxisRaw;
@@ -58,4 +61,6 @@ private:
     AirDodgeStick m_airDodgeStick;
 
     AStick m_aStick;
+    BStick m_bStick;
+    bool m_previousDirectionIsRight{ true };
 };
