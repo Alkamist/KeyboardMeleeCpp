@@ -7,12 +7,17 @@
 auto vJoyWrapper = VJoyWrapper("C:\\Program Files\\vJoy\\x64\\vJoyInterface.dll", 1);
 auto controller = KeyboardMeleeController();
 
+//#include "AnalogAxis.h"
+//#include <iostream>
+//
+//AnalogAxis testAxis;
+
 int main()
 {
     while (1)
     {
         controller.update();
-        auto controllerState = controller.getState();
+        const auto& controllerState = controller.getState();
     
         vJoyWrapper.setButton(1, controllerState.aButton.isPressed());
         vJoyWrapper.setButton(2, controllerState.bButton.isPressed());
@@ -33,7 +38,10 @@ int main()
         vJoyWrapper.setAxis(VjoyAxis::yRotation, controllerState.cYAxis.getValue());
     
         vJoyWrapper.sendInputs();
-    
+
+        //testAxis.setValueFromButtons(Keyboard::keys[65], Keyboard::keys[68]);
+        //std::cout << testAxis.getValue() << std::endl;
+
         std::this_thread::sleep_for(std::chrono::microseconds(100));
     }
 

@@ -39,4 +39,6 @@ private:
     bool m_justActivated{ false };
     bool m_justDeactivated{ false };
     bool m_justCrossedCenter{ false };
+
+    bool m_highButtonWasPressedFirst{ false };
 };

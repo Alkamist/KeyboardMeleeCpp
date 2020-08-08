@@ -20,7 +20,7 @@ static LRESULT CALLBACK KeyboardHook(int nCode, WPARAM wParam, LPARAM lParam)
 
         if ((wParam == WM_KEYDOWN) || (wParam == WM_SYSKEYDOWN))
         {
-            std::cout << keyCode << std::endl;
+            //std::cout << keyCode << std::endl;
             keyStates[keyCode] = true;
         }
         else if ((wParam == WM_KEYUP) || (wParam == WM_SYSKEYUP))

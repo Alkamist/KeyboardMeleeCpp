@@ -18,6 +18,7 @@ public:
 
     void setActionState(const int& actionID, const bool& actionState);
 
+    static const int numberOfActions = 23;
     enum Action
     {
         Action_left,
@@ -39,6 +40,10 @@ public:
         Action_airDodge,
         Action_start,
         Action_tilt,
+        Action_dLeft,
+        Action_dRight,
+        Action_dDown,
+        Action_dUp,
     };
 
     const GameCubeControllerState& getState() const { return m_controllerState; }
@@ -46,7 +51,8 @@ public:
 private:
     GameCubeControllerState m_controllerState;
 
-    Button m_actionStates[19];
+    bool m_pendingActionStates[numberOfActions];
+    Button m_actionStates[numberOfActions];
 
     AnalogAxis m_xAxisRaw;
     AnalogAxis m_yAxisRaw;

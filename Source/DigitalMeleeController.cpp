@@ -1,10 +1,16 @@
 #include "DigitalMeleeController.h"
 
 DigitalMeleeController::DigitalMeleeController()
-{}
+{
+    for (int i = 0; i < numberOfActions; ++i)
+        m_pendingActionStates[i] = false;
+}
 
 void DigitalMeleeController::update()
 {
+    for (int i = 0; i < numberOfActions; ++i)
+        m_actionStates[i].setPressed(m_pendingActionStates[i]);
+
     float xAxisOutput = 0.0f;
     float yAxisOutput = 0.0f;
     float cXAxisOutput = 0.0f;
@@ -111,13 +117,13 @@ void DigitalMeleeController::update()
     m_controllerState.lButton.setPressed(m_actionStates[Action_airDodge].isPressed());
     m_controllerState.rButton.setPressed(m_actionStates[Action_shield].isPressed());
     m_controllerState.startButton.setPressed(m_actionStates[Action_start].isPressed());
-    m_controllerState.dLeftButton.setPressed(false);
-    m_controllerState.dRightButton.setPressed(false);
-    m_controllerState.dDownButton.setPressed(false);
-    m_controllerState.dUpButton.setPressed(false);
+    m_controllerState.dLeftButton.setPressed(m_actionStates[Action_dLeft].isPressed());
+    m_controllerState.dRightButton.setPressed(m_actionStates[Action_dRight].isPressed());
+    m_controllerState.dDownButton.setPressed(m_actionStates[Action_dDown].isPressed());
+    m_controllerState.dUpButton.setPressed(m_actionStates[Action_dUp].isPressed());
 }
 
 void DigitalMeleeController::setActionState(const int& actionID, const bool& actionState)
 {
-    m_actionStates[actionID].setPressed(actionState);
+    m_pendingActionStates[actionID] = actionState;
 }

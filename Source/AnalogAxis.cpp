@@ -19,14 +19,15 @@ static float sign(const float& value)
     return 1.0f;
 }
 
-static float getAxisValueFromButtons(const Button& lowButton, const Button& highButton)
+static float getAxisValueFromStates(const bool& lowState, const bool& highState, const bool& highWasFirst)
 {
-    if (lowButton.justPressed() || (lowButton.isPressed() && !highButton.isPressed()))
+    bool lowAndHigh = lowState && highState;
+    bool onlyLow = lowState && !highState;
+    bool onlyHigh = highState && !lowState;
+    if (onlyLow || (lowAndHigh && highWasFirst))
         return -1.0f;
-    else if (highButton.justPressed() || (highButton.isPressed() && !lowButton.isPressed()))
+    else if (onlyHigh || (lowAndHigh && !highWasFirst))
         return 1.0f;
-    else if (!lowButton.isPressed() && !highButton.isPressed())
-        return 0.0f;
     return 0.0f;
 }
 
@@ -49,10 +50,14 @@ void AnalogAxis::setValue(const float& value)
     m_justActivated = m_isActive && !m_wasActive;
     m_justDeactivated = m_wasActive && !m_isActive;
     m_justCrossedCenter = (m_value < 0.0f && m_previousValue >= 0.0f) 
-                      || (m_value > 0.0f && m_previousValue <= 0.0f);
+                       || (m_value > 0.0f && m_previousValue <= 0.0f);
 }
 
 void AnalogAxis::setValueFromButtons(const Button& lowButton, const Button& highButton)
 {
-    setValue(getAxisValueFromButtons(lowButton, highButton));
+    if (highButton.isPressed() && !lowButton.isPressed()) 
+        m_highButtonWasPressedFirst = true;
+    else if (lowButton.isPressed() && !highButton.isPressed())
+        m_highButtonWasPressedFirst = false;
+    setValue(getAxisValueFromStates(lowButton.isPressed(), highButton.isPressed(), m_highButtonWasPressedFirst));
 }
