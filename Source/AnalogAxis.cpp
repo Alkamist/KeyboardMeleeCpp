@@ -31,25 +31,25 @@ static float getAxisValueFromButtons(const Button& lowButton, const Button& high
 }
 
 AnalogAxis::AnalogAxis(const float& deadZone)
-    : mDeadZone(deadZone)
+    : m_deadZone(deadZone)
 {}
 
 void AnalogAxis::setValue(const float& value)
 {
-    mPreviousValue = mValue;
-    mPreviousMagnitude = mMagnitude;
+    m_previousValue = m_value;
+    m_previousMagnitude = m_magnitude;
 
-    mValue = value;
-    mMagnitude = absoluteValue(mValue);
-    mSign = sign(mValue);
-    mNormalizedValue = normalize(mValue);
+    m_value = value;
+    m_magnitude = absoluteValue(m_value);
+    m_sign = sign(m_value);
+    m_normalizedValue = normalize(m_value);
 
-    mWasActive = mIsActive;
-    mIsActive = mMagnitude >= mDeadZone;
-    mJustActivated = mIsActive && !mWasActive;
-    mJustDeactivated = mWasActive && !mIsActive;
-    mJustCrossedCenter = (mValue < 0.0f && mPreviousValue >= 0.0f) 
-                      || (mValue > 0.0f && mPreviousValue <= 0.0f);
+    m_wasActive = m_isActive;
+    m_isActive = m_magnitude >= m_deadZone;
+    m_justActivated = m_isActive && !m_wasActive;
+    m_justDeactivated = m_wasActive && !m_isActive;
+    m_justCrossedCenter = (m_value < 0.0f && m_previousValue >= 0.0f) 
+                      || (m_value > 0.0f && m_previousValue <= 0.0f);
 }
 
 void AnalogAxis::setValueFromButtons(const Button& lowButton, const Button& highButton)

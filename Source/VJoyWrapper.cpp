@@ -4,7 +4,7 @@
 
 VJoyWrapper::VJoyWrapper(const std::string& dllPath, const unsigned int& deviceID)
 {
-    mJoystickData.bDevice = unsigned char(deviceID);
+    m_joystickData.bDevice = unsigned char(deviceID);
 
     HINSTANCE dllID;
 
@@ -18,20 +18,20 @@ VJoyWrapper::VJoyWrapper(const std::string& dllPath, const unsigned int& deviceI
         std::cout << "vJoy failed to load." << std::endl;
     }
 
-    mVJoyEnabled = (vJoyEnabledFunction)(GetProcAddress(dllID, "vJoyEnabled"));
-    mAcquireVJD = (acquireVJDFunction)(GetProcAddress(dllID, "AcquireVJD"));
-    mRelinquishVJD = (relinquishVJDFunction)(GetProcAddress(dllID, "RelinquishVJD"));
-    mUpdateVJD = (updateVJDFunction)(GetProcAddress(dllID, "UpdateVJD"));
+    m_vJoyEnabled = (vJoyEnabledFunction)(GetProcAddress(dllID, "vJoyEnabled"));
+    m_acquireVJD = (acquireVJDFunction)(GetProcAddress(dllID, "AcquireVJD"));
+    m_relinquishVJD = (relinquishVJDFunction)(GetProcAddress(dllID, "RelinquishVJD"));
+    m_updateVJD = (updateVJDFunction)(GetProcAddress(dllID, "UpdateVJD"));
 
-    if (mVJoyEnabled())
+    if (m_vJoyEnabled())
     {
-        mAcquireVJD(mJoystickData.bDevice);
+        m_acquireVJD(m_joystickData.bDevice);
     }
 }
 
 VJoyWrapper::~VJoyWrapper()
 {
-    mRelinquishVJD(mJoystickData.bDevice);
+    m_relinquishVJD(m_joystickData.bDevice);
 }
 
 void VJoyWrapper::setButton(const unsigned int& button_id, const bool& state)
@@ -39,11 +39,11 @@ void VJoyWrapper::setButton(const unsigned int& button_id, const bool& state)
     unsigned int bit_index = button_id - 1;
     if (state)
     {
-        mJoystickData.lButtons = mJoystickData.lButtons | (1 << bit_index);
+        m_joystickData.lButtons = m_joystickData.lButtons | (1 << bit_index);
     }
     else
     {
-        mJoystickData.lButtons = mJoystickData.lButtons & ~(1 << bit_index);
+        m_joystickData.lButtons = m_joystickData.lButtons & ~(1 << bit_index);
     }
 }
 
@@ -58,27 +58,27 @@ void VJoyWrapper::setAxis(const VjoyAxis& axis, const float& value)
     switch (axis)
     {
         case VjoyAxis::x:
-            mJoystickData.wAxisX = getScaledAxisValue(value);
+            m_joystickData.wAxisX = getScaledAxisValue(value);
             break;
         case VjoyAxis::y:
-            mJoystickData.wAxisY = getScaledAxisValue(value);
+            m_joystickData.wAxisY = getScaledAxisValue(value);
             break;
         case VjoyAxis::z:
-            mJoystickData.wAxisZ = getScaledAxisValue(value);
+            m_joystickData.wAxisZ = getScaledAxisValue(value);
             break;
         case VjoyAxis::xRotation:
-            mJoystickData.wAxisXRot = getScaledAxisValue(value);
+            m_joystickData.wAxisXRot = getScaledAxisValue(value);
             break;
         case VjoyAxis::yRotation:
-            mJoystickData.wAxisYRot = getScaledAxisValue(value);
+            m_joystickData.wAxisYRot = getScaledAxisValue(value);
             break;
         case VjoyAxis::zRotation:
-            mJoystickData.wAxisZRot = getScaledAxisValue(value);
+            m_joystickData.wAxisZRot = getScaledAxisValue(value);
             break;
     }
 }
 
 void VJoyWrapper::sendInputs()
 {
-    mUpdateVJD(mJoystickData.bDevice, mJoystickData);
+    m_updateVJD(m_joystickData.bDevice, m_joystickData);
 }

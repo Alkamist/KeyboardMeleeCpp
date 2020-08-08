@@ -4,7 +4,7 @@
 
 void AirDodgeStick::update(const bool& airDodgeState, const bool& shortenState)
 {
-    mAirDodgeInput.setPressed(airDodgeState);
+    m_airDodgeInput.setPressed(airDodgeState);
 
     bool isLeft = xAxis.isActive() && xAxis.getValue() <= 0.0;
     bool isRight = xAxis.isActive() && xAxis.getValue() >= 0.0;
@@ -17,30 +17,30 @@ void AirDodgeStick::update(const bool& airDodgeState, const bool& shortenState)
     bool airDodgeMedium = isSideways && shortenState;
     bool airDodgeLong = isSideways && !shortenState;
 
-    if (mAirDodgeInput.justPressed())
+    if (m_airDodgeInput.justPressed())
     {
-        mIsAirDodging = true;
-        mAirDodgeTime = millis();
+        m_isAirDodging = true;
+        m_airDodgeTime = millis();
     }
 
-    if (mIsAirDodging && !isUp)
+    if (m_isAirDodging && !isUp)
     {
-        if (millis() - mAirDodgeTime < 51)
+        if (millis() - m_airDodgeTime < 51)
         {
             if (airDodgeLong)
             {
-                xAxis.setValue(xAxis.getNormalizedValue() * xLevelLong);
-                yAxis.setValue(yLevelLong);
+                xAxis.setValue(xAxis.getNormalizedValue() * m_xLevelLong);
+                yAxis.setValue(m_yLevelLong);
             }
             else if (airDodgeMedium)
             {
-                xAxis.setValue(xAxis.getNormalizedValue() * xLevelMedium);
-                yAxis.setValue(yLevelMedium);
+                xAxis.setValue(xAxis.getNormalizedValue() * m_xLevelMedium);
+                yAxis.setValue(m_yLevelMedium);
             }
             else if (airDodgeShort)
             {
-                xAxis.setValue(xAxis.getNormalizedValue() * xLevelShort);
-                yAxis.setValue(yLevelShort);
+                xAxis.setValue(xAxis.getNormalizedValue() * m_xLevelShort);
+                yAxis.setValue(m_yLevelShort);
             }
             else if (!isDown)
             {
@@ -49,7 +49,7 @@ void AirDodgeStick::update(const bool& airDodgeState, const bool& shortenState)
         }
         else
         {
-            mIsAirDodging = false;
+            m_isAirDodging = false;
         }
     }
 }

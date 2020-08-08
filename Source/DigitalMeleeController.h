@@ -37,21 +37,21 @@ public:
         Action_tilt,
     };
 
-    const GameCubeControllerState& getState() const { return mControllerState; }
+    const GameCubeControllerState& getState() const { return m_controllerState; }
 
 private:
-    GameCubeControllerState mControllerState;
+    GameCubeControllerState m_controllerState;
 
-    Button mActionStates[17];
+    Button m_actionStates[17];
 
-    AnalogAxis mXAxisRaw;
-    AnalogAxis mYAxisRaw;
-    AnalogAxis mCXAxisRaw;
-    AnalogAxis mCYAxisRaw;
+    AnalogAxis m_xAxisRaw;
+    AnalogAxis m_yAxisRaw;
+    AnalogAxis m_cXAxisRaw;
+    AnalogAxis m_cYAxisRaw;
 
-    bool mUseShortHopMacro{ true };
-    JumpLogic mJumpLogic;
+    bool m_useShortHopMacro{ true };
+    JumpLogic m_jumpLogic;
 
-    TiltStick mTiltStick{ 0.65f };
-    AirDodgeStick mAirDodgeStick;
+    TiltStick m_tiltStick{ 0.65f };
+    AirDodgeStick m_airDodgeStick;
 };

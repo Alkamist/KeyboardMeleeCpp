@@ -10,15 +10,15 @@ public:
                 const bool& shortenState);
 
 private:
-    Button mAirDodgeInput;
+    Button m_airDodgeInput;
 
-    bool mIsAirDodging{ false };
-    unsigned long mAirDodgeTime{ 0 };
+    bool m_isAirDodging{ false };
+    unsigned long m_airDodgeTime{ 0 };
 
-    float xLevelLong{ 0.925f };
-    float yLevelLong{ -0.35f };
-    float xLevelMedium{ 0.8125f };
-    float yLevelMedium{ -0.575f };
-    float xLevelShort{ 0.5f };
-    float yLevelShort{ -0.85f };
+    float m_xLevelLong{ 0.925f };
+    float m_yLevelLong{ -0.35f };
+    float m_xLevelMedium{ 0.8125f };
+    float m_yLevelMedium{ -0.575f };
+    float m_xLevelShort{ 0.5f };
+    float m_yLevelShort{ -0.85f };
 };

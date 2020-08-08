@@ -1,14 +1,14 @@
 #include "Button.h"
 
 Button::Button(const bool& state)
-    : mIsPressed(state),
-      mWasPressed(state)
+    : m_isPressed(state),
+      m_wasPressed(state)
 {}
 
 void Button::setPressed(const bool& state)
 {
-    mWasPressed = mIsPressed;
-    mIsPressed = state;
-    mJustPressed = mIsPressed && !mWasPressed;
-    mJustReleased = mWasPressed && !mIsPressed;
+    m_wasPressed = m_isPressed;
+    m_isPressed = state;
+    m_justPressed = m_isPressed && !m_wasPressed;
+    m_justReleased = m_wasPressed && !m_isPressed;
 }

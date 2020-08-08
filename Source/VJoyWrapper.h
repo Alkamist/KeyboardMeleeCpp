@@ -63,10 +63,10 @@ public:
     void sendInputs();
 
 private:
-    JOYSTICK_POSITION_V2 mJoystickData;
+    JOYSTICK_POSITION_V2 m_joystickData;
 
-    vJoyEnabledFunction mVJoyEnabled;
-    acquireVJDFunction mAcquireVJD;
-    relinquishVJDFunction mRelinquishVJD;
-    updateVJDFunction mUpdateVJD;
+    vJoyEnabledFunction m_vJoyEnabled;
+    acquireVJDFunction m_acquireVJD;
+    relinquishVJDFunction m_relinquishVJD;
+    updateVJDFunction m_updateVJD;
 };

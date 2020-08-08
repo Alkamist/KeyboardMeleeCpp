@@ -11,32 +11,32 @@ public:
     void setValue(const float& value);
     void setValueFromButtons(const Button& lowButton, const Button& highButton);
 
-    void setDeadZone(const float& value) { mDeadZone = value; }
-    float getDeadZone() const { return mDeadZone; }
+    void setDeadZone(const float& value) { m_deadZone = value; }
+    float getDeadZone() const { return m_deadZone; }
 
-    float getValue() const { return mValue; }
-    float getMagnitude() const { return mMagnitude; }
-    float getSign() const { return mSign; }
-    float getNormalizedValue() const{ return mNormalizedValue; }
+    float getValue() const { return m_value; }
+    float getMagnitude() const { return m_magnitude; }
+    float getSign() const { return m_sign; }
+    float getNormalizedValue() const{ return m_normalizedValue; }
 
-    bool isActive() const { return mIsActive; }
-    bool wasActive() const { return mWasActive; }
-    bool justActivated() const { return mJustActivated; }
-    bool justDeactivated() const { return mJustDeactivated; }
-    bool justCrossedCenter() const { return mJustCrossedCenter; }
+    bool isActive() const { return m_isActive; }
+    bool wasActive() const { return m_wasActive; }
+    bool justActivated() const { return m_justActivated; }
+    bool justDeactivated() const { return m_justDeactivated; }
+    bool justCrossedCenter() const { return m_justCrossedCenter; }
 
 private:
-    float mValue{ 0.0f };
-    float mPreviousValue{ 0.0f };
-    float mMagnitude{ 0.0f };
-    float mPreviousMagnitude{ 0.0f };
-    float mNormalizedValue{ 0.0f };
-    float mSign{ 1.0f };
-    float mDeadZone{ 0.2875f };
+    float m_value{ 0.0f };
+    float m_previousValue{ 0.0f };
+    float m_magnitude{ 0.0f };
+    float m_previousMagnitude{ 0.0f };
+    float m_normalizedValue{ 0.0f };
+    float m_sign{ 1.0f };
+    float m_deadZone{ 0.2875f };
 
-    bool mIsActive{ false };
-    bool mWasActive{ false };
-    bool mJustActivated{ false };
-    bool mJustDeactivated{ false };
-    bool mJustCrossedCenter{ false };
+    bool m_isActive{ false };
+    bool m_wasActive{ false };
+    bool m_justActivated{ false };
+    bool m_justDeactivated{ false };
+    bool m_justCrossedCenter{ false };
 };

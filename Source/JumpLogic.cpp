@@ -4,45 +4,45 @@
 
 void JumpLogic::update(const bool& shortHopState, const bool& fullHopState)
 {
-    mShortHopInput.setPressed(shortHopState);
-    mFullHopInput.setPressed(fullHopState);
+    m_shortHopInput.setPressed(shortHopState);
+    m_fullHopInput.setPressed(fullHopState);
 
 
     // Short hop handling.
-    bool startShortHop = mShortHopInput.justPressed() || (mIsFullHopping && mFullHopInput.justPressed());
+    bool startShortHop = m_shortHopInput.justPressed() || (m_isFullHopping && m_fullHopInput.justPressed());
 
     if (startShortHop)
     {
-        mShortHopOutput = true;
-        mIsShortHopping = true;
-        mShortHopTime = millis();
+        m_shortHopOutput = true;
+        m_isShortHopping = true;
+        m_shortHopTime = millis();
     }
 
-    if (mIsShortHopping && millis() - mShortHopTime >= 25)
+    if (m_isShortHopping && millis() - m_shortHopTime >= 25)
     {
-        mShortHopOutput = false;
-        mIsShortHopping = false;
+        m_shortHopOutput = false;
+        m_isShortHopping = false;
     }
 
 
     // Full hop handling.
-    bool startFullHop = mFullHopInput.justPressed();
+    bool startFullHop = m_fullHopInput.justPressed();
 
     if (startFullHop)
     {
-        mIsFullHopping = true;
-        mFullHopOutput = true;
-        mFullHopTime = millis();
+        m_isFullHopping = true;
+        m_fullHopOutput = true;
+        m_fullHopTime = millis();
     }
 
-    if (mIsFullHopping && (!mFullHopInput.isPressed()))
+    if (m_isFullHopping && (!m_fullHopInput.isPressed()))
     {
-        if (millis() - mFullHopTime >= 134)
-            mFullHopOutput = false;
+        if (millis() - m_fullHopTime >= 134)
+            m_fullHopOutput = false;
 
         // Wait one extra frame so you can't miss a double jump by
         // pushing the full hop button on the same frame of release.
-        if (millis() - mFullHopTime >= 150)
-            mIsFullHopping = false;
+        if (millis() - m_fullHopTime >= 150)
+            m_isFullHopping = false;
     }
 }

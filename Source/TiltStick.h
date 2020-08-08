@@ -9,10 +9,10 @@ public:
 
     void update(const bool& allowTilt, const bool& resetTilt);
 
-    bool isTilting() const { return mIsTilting; }
+    bool isTilting() const { return m_isTilting; }
 
 private:
-    bool mIsTilting{ false };
-    unsigned long mTiltTime{ 0 };
-    float mTiltLevel{ 1.0 };
+    bool m_isTilting{ false };
+    unsigned long m_tiltTime{ 0 };
+    float m_tiltLevel{ 1.0 };
 };

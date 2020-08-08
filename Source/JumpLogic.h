@@ -7,19 +7,19 @@ class JumpLogic
 public:
     void update(const bool& shortHopState, const bool& fullHopState);
 
-    bool getShortHopOutput() const { return mShortHopOutput; }
-    bool getFullHopOutput() const { return mFullHopOutput; }
+    bool getShortHopOutput() const { return m_shortHopOutput; }
+    bool getFullHopOutput() const { return m_fullHopOutput; }
 
 private:
-    bool mShortHopOutput{ false };
-    bool mFullHopOutput{ false };
+    bool m_shortHopOutput{ false };
+    bool m_fullHopOutput{ false };
 
-    Button mShortHopInput;
-    Button mFullHopInput;
+    Button m_shortHopInput;
+    Button m_fullHopInput;
 
-    bool mIsShortHopping{ false };
-    bool mIsFullHopping{ false };
+    bool m_isShortHopping{ false };
+    bool m_isFullHopping{ false };
 
-    unsigned long mShortHopTime{ 0 };
-    unsigned long mFullHopTime{ 0 };
+    unsigned long m_shortHopTime{ 0 };
+    unsigned long m_fullHopTime{ 0 };
 };

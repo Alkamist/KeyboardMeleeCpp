@@ -3,7 +3,7 @@
 #include "Millis.h"
 
 TiltStick::TiltStick(const float& tiltLevel)
-    : mTiltLevel(tiltLevel)
+    : m_tiltLevel(tiltLevel)
 {}
 
 void TiltStick::update(const bool& allowTilt, const bool& resetTilt)
@@ -14,15 +14,15 @@ void TiltStick::update(const bool& allowTilt, const bool& resetTilt)
 
     if (allowTilt && resetTiltConditions)
     {
-        mTiltTime = millis();
-        mIsTilting = true;
+        m_tiltTime = millis();
+        m_isTilting = true;
     }
 
-    if (mIsTilting)
+    if (m_isTilting)
     {
-        scaleMagnitude(mTiltLevel);
+        scaleMagnitude(m_tiltLevel);
 
-        if (millis() - mTiltTime >= 117)
-            mIsTilting = false;
+        if (millis() - m_tiltTime >= 117)
+            m_isTilting = false;
     }
 }

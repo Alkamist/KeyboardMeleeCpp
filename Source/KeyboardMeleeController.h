@@ -10,11 +10,11 @@ public:
 
     void update();
 
-    const GameCubeControllerState& getState() const { return mController.getState(); }
+    const GameCubeControllerState& getState() const { return m_controller.getState(); }
 
 private:
-    bool mIsEnabled{ true };
-    int mKeyActions[NUMBER_OF_KEYS];
-    int mToggleControllerKeyCode{ 112 };
-    DigitalMeleeController mController;
+    bool m_isEnabled{ true };
+    int m_keyActions[NUMBER_OF_KEYS];
+    int m_toggleControllerKeyCode{ 112 };
+    DigitalMeleeController m_controller;
 };
