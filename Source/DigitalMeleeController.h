@@ -6,6 +6,7 @@
 #include "JumpLogic.h"
 #include "TiltStick.h"
 #include "AirDodgeStick.h"
+#include "AStick.h"
 
 class DigitalMeleeController
 {
@@ -55,4 +56,6 @@ private:
     TiltStick m_tiltStick{ 0.65f };
     TiltStick m_shieldTiltStick{ 0.6625f };
     AirDodgeStick m_airDodgeStick;
+
+    AStick m_aStick;
 };

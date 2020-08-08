@@ -42,6 +42,12 @@
     <ClCompile Include="Source\AirDodgeStick.cpp">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="Source\DelayedButton.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\AStick.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Button.h">
@@ -78,6 +84,12 @@
       <Filter>Source</Filter>
     </ClInclude>
     <ClInclude Include="Source\AirDodgeStick.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DelayedButton.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\AStick.h">
       <Filter>Source</Filter>
     </ClInclude>
   </ItemGroup>

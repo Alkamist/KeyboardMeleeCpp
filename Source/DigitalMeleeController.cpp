@@ -10,6 +10,8 @@ void DigitalMeleeController::update()
     float cXAxisOutput = 0.0f;
     float cYAxisOutput = 0.0f;
 
+    bool aOutput = m_actionStates[Action_a].isPressed();
+
     m_xAxisRaw.setValueFromButtons(m_actionStates[Action_left], m_actionStates[Action_right]);
     m_yAxisRaw.setValueFromButtons(m_actionStates[Action_down], m_actionStates[Action_up]);
     xAxisOutput = m_xAxisRaw.getValue();
@@ -19,6 +21,41 @@ void DigitalMeleeController::update()
     m_cYAxisRaw.setValueFromButtons(m_actionStates[Action_cDown], m_actionStates[Action_cUp]);
     cXAxisOutput = m_cXAxisRaw.getValue();
     cYAxisOutput = m_cYAxisRaw.getValue();
+
+    // Handle short hop and full hop logic.
+    if (m_useShortHopMacro)
+    {
+        m_jumpLogic.update(m_actionStates[Action_shortHop].isPressed(), m_actionStates[Action_fullHop].isPressed());
+        m_controllerState.xButton.setPressed(m_jumpLogic.getFullHopOutput());
+        m_controllerState.yButton.setPressed(m_jumpLogic.getShortHopOutput());
+    }
+    else
+    {
+        m_controllerState.xButton.setPressed(m_actionStates[Action_fullHop].isPressed());
+        m_controllerState.yButton.setPressed(m_actionStates[Action_shortHop].isPressed());
+    }
+
+    // Handle A stick logic.
+    if (!m_actionStates[Action_shield].isPressed())
+    {
+        bool aStickModifier = m_actionStates[Action_tilt].isPressed();
+        m_aStick.xAxis.setValue(xAxisOutput);
+        m_aStick.yAxis.setValue(yAxisOutput);
+        m_aStick.update(m_actionStates[Action_a].isPressed(),
+                        m_actionStates[Action_cLeft].isPressed() && aStickModifier,
+                        m_actionStates[Action_cRight].isPressed() && aStickModifier,
+                        m_actionStates[Action_cDown].isPressed() && aStickModifier,
+                        m_actionStates[Action_cUp].isPressed() && aStickModifier);
+
+        aOutput = m_aStick.outputButton.isPressed();
+        xAxisOutput = m_aStick.xAxis.getValue();
+        yAxisOutput = m_aStick.yAxis.getValue();
+        if (aStickModifier)
+        {
+            cXAxisOutput = 0.0f;
+            cYAxisOutput = 0.0f;
+        }
+    }
 
     // Handle tilt stick logic.
     m_tiltStick.xAxis.setValue(xAxisOutput);
@@ -34,26 +71,12 @@ void DigitalMeleeController::update()
     xAxisOutput = m_shieldTiltStick.xAxis.getValue();
     yAxisOutput = m_shieldTiltStick.yAxis.getValue();
 
-    // Handle short hop and full hop logic.
-    if (m_useShortHopMacro)
-    {
-        m_jumpLogic.update(m_actionStates[Action_shortHop].isPressed(), m_actionStates[Action_fullHop].isPressed());
-        m_controllerState.xButton.setPressed(m_jumpLogic.getFullHopOutput());
-        m_controllerState.yButton.setPressed(m_jumpLogic.getShortHopOutput());
-    }
-    else
-    {
-        m_controllerState.xButton.setPressed(m_actionStates[Action_fullHop].isPressed());
-        m_controllerState.yButton.setPressed(m_actionStates[Action_shortHop].isPressed());
-    }
-
     // Handle air dodge angle logic.
     m_airDodgeStick.xAxis.setValue(xAxisOutput);
     m_airDodgeStick.yAxis.setValue(yAxisOutput);
     m_airDodgeStick.update(m_actionStates[Action_airDodge].isPressed(), m_actionStates[Action_tilt].isPressed());
     xAxisOutput = m_airDodgeStick.xAxis.getValue();
     yAxisOutput = m_airDodgeStick.yAxis.getValue();
-
 
     // Update controller axis states.
     m_controllerState.xAxis.setValue(xAxisOutput);
@@ -62,7 +85,7 @@ void DigitalMeleeController::update()
     m_controllerState.cYAxis.setValue(cYAxisOutput);
 
     // Update controller button states.
-    m_controllerState.aButton.setPressed(m_actionStates[Action_a].isPressed());
+    m_controllerState.aButton.setPressed(aOutput);
     m_controllerState.bButton.setPressed(m_actionStates[Action_b].isPressed());
     m_controllerState.zButton.setPressed(m_actionStates[Action_z].isPressed());
     m_controllerState.lButton.setPressed(m_actionStates[Action_airDodge].isPressed());
