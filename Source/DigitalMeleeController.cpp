@@ -23,9 +23,16 @@ void DigitalMeleeController::update()
     // Handle tilt stick logic.
     m_tiltStick.xAxis.setValue(xAxisOutput);
     m_tiltStick.yAxis.setValue(yAxisOutput);
-    m_tiltStick.update(m_actionStates[Action_tilt].isPressed(), m_actionStates[Action_tilt].justPressed());
+    m_tiltStick.update(m_actionStates[Action_tilt].isPressed(), false);
     xAxisOutput = m_tiltStick.xAxis.getValue();
     yAxisOutput = m_tiltStick.yAxis.getValue();
+
+    // Handle shield tilt stick logic.
+    m_shieldTiltStick.xAxis.setValue(xAxisOutput);
+    m_shieldTiltStick.yAxis.setValue(yAxisOutput);
+    m_shieldTiltStick.update(m_actionStates[Action_shield].isPressed(), m_actionStates[Action_shield].justPressed());
+    xAxisOutput = m_shieldTiltStick.xAxis.getValue();
+    yAxisOutput = m_shieldTiltStick.yAxis.getValue();
 
     // Handle short hop and full hop logic.
     if (m_useShortHopMacro)

@@ -14,5 +14,5 @@ public:
 private:
     bool m_isTilting{ false };
     unsigned long m_tiltTime{ 0 };
-    float m_tiltLevel{ 1.0 };
+    float m_tiltLevel{ 1.0f };
 };

@@ -6,10 +6,10 @@ void AirDodgeStick::update(const bool& airDodgeState, const bool& shortenState)
 {
     m_airDodgeInput.setPressed(airDodgeState);
 
-    bool isLeft = xAxis.isActive() && xAxis.getValue() <= 0.0;
-    bool isRight = xAxis.isActive() && xAxis.getValue() >= 0.0;
-    bool isDown = yAxis.isActive() && yAxis.getValue() <= 0.0;
-    bool isUp = yAxis.isActive() && yAxis.getValue() >= 0.0;
+    bool isLeft = xAxis.isActive() && xAxis.getValue() < 0.0f;
+    bool isRight = xAxis.isActive() && xAxis.getValue() > 0.0f;
+    bool isDown = yAxis.isActive() && yAxis.getValue() < 0.0f;
+    bool isUp = yAxis.isActive() && yAxis.getValue() > 0.0f;
     bool isSideways = (isLeft || isRight) && !isDown;
     bool isDiagonal = (isLeft || isRight) && (isDown || isUp);
 

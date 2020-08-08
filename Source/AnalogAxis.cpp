@@ -8,8 +8,8 @@ static float absoluteValue(const float& value)
 
 static float normalize(const float& value)
 {
-    if (value > 0.0f) return 1.0;
-    if (value < 0.0f) return -1.0;
+    if (value > 0.0f) return 1.0f;
+    if (value < 0.0f) return -1.0f;
     return value;
 }
 

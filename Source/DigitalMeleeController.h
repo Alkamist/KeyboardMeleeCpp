@@ -53,5 +53,6 @@ private:
     JumpLogic m_jumpLogic;
 
     TiltStick m_tiltStick{ 0.65f };
+    TiltStick m_shieldTiltStick{ 0.6625f };
     AirDodgeStick m_airDodgeStick;
 };
