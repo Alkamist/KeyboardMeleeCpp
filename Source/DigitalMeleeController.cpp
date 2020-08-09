@@ -129,6 +129,22 @@ void DigitalMeleeController::update()
     xAxisOutput = m_airDodgeStick.xAxis.getValue();
     yAxisOutput = m_airDodgeStick.yAxis.getValue();
 
+    // Allow for angled smashes while holding down or up.
+    bool cAngled = (m_actionStates[Action_cLeft].isPressed() || m_actionStates[Action_cRight].isPressed())
+                && (m_actionStates[Action_down].isPressed() || m_actionStates[Action_up].isPressed());
+    if (cAngled && !m_actionStates[Action_tilt].isPressed())
+        cYAxisOutput = m_yAxisRaw.getValue() * 0.4f;
+
+    // Allow for a special button to make c stick buttons charge smashes.
+    bool cIsPressed = m_actionStates[Action_cLeft].isPressed() || m_actionStates[Action_cRight].isPressed()
+                   || m_actionStates[Action_cDown].isPressed() || m_actionStates[Action_cUp].isPressed();
+    if (m_actionStates[Action_chargeSmash].isPressed() && cIsPressed)
+        m_chargeSmash = true;
+    if (!cIsPressed)
+        m_chargeSmash = false;
+    if (m_chargeSmash)
+        aOutput = true;
+    
     // Update controller axis states.
     m_controllerState.xAxis.setValue(xAxisOutput);
     m_controllerState.yAxis.setValue(yAxisOutput);

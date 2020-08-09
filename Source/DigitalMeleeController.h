@@ -20,7 +20,7 @@ public:
 
     void setActionState(const int& actionID, const bool& actionState);
 
-    static const int numberOfActions = 25;
+    static const int numberOfActions = 26;
     enum Action
     {
         Action_left,
@@ -48,6 +48,7 @@ public:
         Action_dRight,
         Action_dDown,
         Action_dUp,
+        Action_chargeSmash,
     };
 
     const GameCubeControllerState& getState() const { return m_controllerState; }
@@ -77,4 +78,6 @@ private:
     ModifierAngleStick m_modifierAngleStick;
 
     BackdashOutOfCrouchFix m_backdashOutOfCrouchFix;
+
+    bool m_chargeSmash{ false };
 };
