@@ -9,6 +9,7 @@
 #include "AStick.h"
 #include "BStick.h"
 #include "ModifierAngleStick.h"
+#include "BackdashOutOfCrouchFix.h"
 
 class DigitalMeleeController
 {
@@ -74,4 +75,6 @@ private:
     bool m_previousDirectionIsRight{ true };
 
     ModifierAngleStick m_modifierAngleStick;
+
+    BackdashOutOfCrouchFix m_backdashOutOfCrouchFix;
 };

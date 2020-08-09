@@ -42,6 +42,24 @@ void DigitalMeleeController::update()
         m_controllerState.yButton.setPressed(m_actionStates[Action_shortHop].isPressed());
     }
 
+    // Handle backdash out of crouch fix.
+    m_backdashOutOfCrouchFix.xAxis.setValue(xAxisOutput);
+    m_backdashOutOfCrouchFix.yAxis.setValue(yAxisOutput);
+    m_backdashOutOfCrouchFix.update(m_actionStates[Action_left].isPressed(), 
+                                    m_actionStates[Action_right].isPressed(),
+                                    m_actionStates[Action_down].isPressed());
+
+    // Only fix backdash out of crouch if you are not doing anything else important.
+    if (!(m_actionStates[Action_fullHop].isPressed() || m_actionStates[Action_shortHop].isPressed()
+        || m_actionStates[Action_airDodge].isPressed() || m_actionStates[Action_shield].isPressed()
+        || m_actionStates[Action_z].isPressed() || m_actionStates[Action_a].isPressed()
+        || m_actionStates[Action_bNeutralDown].isPressed() || m_actionStates[Action_bSide].isPressed()
+        || m_actionStates[Action_bUp].isPressed() || m_actionStates[Action_tilt].isPressed()))
+    {
+        xAxisOutput = m_backdashOutOfCrouchFix.xAxis.getValue();
+        yAxisOutput = m_backdashOutOfCrouchFix.yAxis.getValue();
+    }
+
     // Handle modifier angle logic.
     m_modifierAngleStick.xAxis.setValue(xAxisOutput);
     m_modifierAngleStick.yAxis.setValue(yAxisOutput);
