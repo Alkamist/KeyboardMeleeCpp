@@ -36,6 +36,7 @@ int main()
         vJoyWrapper.setAxis(VjoyAxis::y, controllerState.yAxis.getValue());
         vJoyWrapper.setAxis(VjoyAxis::xRotation, controllerState.cXAxis.getValue());
         vJoyWrapper.setAxis(VjoyAxis::yRotation, controllerState.cYAxis.getValue());
+        vJoyWrapper.setAxis(VjoyAxis::slider0, controllerState.lAnalog.getValue());
     
         vJoyWrapper.sendInputs();
 

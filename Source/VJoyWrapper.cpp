@@ -53,6 +53,11 @@ static long getScaledAxisValue(const float& value)
     return long(scaledValue * 0x8000);
 }
 
+static long getScaledSliderValue(const float& value)
+{
+    return long(value * 0x8000);
+}
+
 void VJoyWrapper::setAxis(const VjoyAxis& axis, const float& value)
 {
     switch (axis)
@@ -72,8 +77,8 @@ void VJoyWrapper::setAxis(const VjoyAxis& axis, const float& value)
         case VjoyAxis::yRotation:
             m_joystickData.wAxisYRot = getScaledAxisValue(value);
             break;
-        case VjoyAxis::zRotation:
-            m_joystickData.wAxisZRot = getScaledAxisValue(value);
+        case VjoyAxis::slider0:
+            m_joystickData.wSlider = getScaledSliderValue(value);
             break;
     }
 }

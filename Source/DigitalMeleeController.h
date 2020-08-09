@@ -20,7 +20,7 @@ public:
 
     void setActionState(const int& actionID, const bool& actionState);
 
-    static const int numberOfActions = 26;
+    static const int numberOfActions = 27;
     enum Action
     {
         Action_left,
@@ -42,6 +42,7 @@ public:
         Action_bSide,
         Action_z,
         Action_shield,
+        Action_toggleLightShield,
         Action_airDodge,
         Action_start,
         Action_dLeft,
@@ -80,4 +81,5 @@ private:
     BackdashOutOfCrouchFix m_backdashOutOfCrouchFix;
 
     bool m_chargeSmash{ false };
+    bool m_isLightShielding{ false };
 };

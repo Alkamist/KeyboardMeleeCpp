@@ -49,7 +49,7 @@ enum class VjoyAxis
     z,
     xRotation,
     yRotation,
-    zRotation,
+    slider0,
 };
 
 class VJoyWrapper

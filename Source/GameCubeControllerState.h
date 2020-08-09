@@ -3,6 +3,15 @@
 #include "Button.h"
 #include "AnalogAxis.h"
 
+class AnalogSlider
+{
+public:
+    void setValue(const float& value) { m_value = value; }
+    float getValue() const { return m_value; }
+private:
+    float m_value{ 0.0 };
+ };
+
 struct GameCubeControllerState
 {
     AnalogAxis xAxis;
@@ -21,4 +30,6 @@ struct GameCubeControllerState
     Button dRightButton;
     Button dDownButton;
     Button dUpButton;
+    AnalogSlider lAnalog;
+    AnalogSlider rAnalog;
 };

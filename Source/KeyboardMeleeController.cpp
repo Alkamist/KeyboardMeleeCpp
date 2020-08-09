@@ -23,6 +23,7 @@ KeyboardMeleeController::KeyboardMeleeController()
     bindKey(187, m_controller.Action_z);
 
     bindKey(221, m_controller.Action_shield);
+    bindKey(32, m_controller.Action_toggleLightShield);
     bindKey(186, m_controller.Action_airDodge);
 
     bindKey(219, m_controller.Action_shortHop);

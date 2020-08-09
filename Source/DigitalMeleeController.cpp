@@ -15,9 +15,11 @@ void DigitalMeleeController::update()
     float yAxisOutput = 0.0f;
     float cXAxisOutput = 0.0f;
     float cYAxisOutput = 0.0f;
+    float lAnalogOutput = 0.0f;
 
     bool aOutput = m_actionStates[Action_a].isPressed();
     bool bOutput = false;
+    bool shieldOutput = m_actionStates[Action_shield].isPressed();
 
     m_xAxisRaw.setValueFromButtons(m_actionStates[Action_left], m_actionStates[Action_right]);
     m_yAxisRaw.setValueFromButtons(m_actionStates[Action_down], m_actionStates[Action_up]);
@@ -144,19 +146,31 @@ void DigitalMeleeController::update()
         m_chargeSmash = false;
     if (m_chargeSmash)
         aOutput = true;
+
+    // Allow for a special button to toggle light shield while the shield button is held.
+    if (m_actionStates[Action_toggleLightShield].justPressed() && m_actionStates[Action_shield].isPressed())
+        m_isLightShielding = !m_isLightShielding;
+    if (m_actionStates[Action_shield].justReleased())
+        m_isLightShielding = false;
+    if (m_isLightShielding)
+    {
+        shieldOutput = false;
+        lAnalogOutput = float(43 + 1) / 255.0f;
+    }
     
     // Update controller axis states.
     m_controllerState.xAxis.setValue(xAxisOutput);
     m_controllerState.yAxis.setValue(yAxisOutput);
     m_controllerState.cXAxis.setValue(cXAxisOutput);
     m_controllerState.cYAxis.setValue(cYAxisOutput);
+    m_controllerState.lAnalog.setValue(lAnalogOutput);
 
     // Update controller button states.
     m_controllerState.aButton.setPressed(aOutput);
     m_controllerState.bButton.setPressed(bOutput);
     m_controllerState.zButton.setPressed(m_actionStates[Action_z].isPressed());
     m_controllerState.lButton.setPressed(m_actionStates[Action_airDodge].isPressed());
-    m_controllerState.rButton.setPressed(m_actionStates[Action_shield].isPressed());
+    m_controllerState.rButton.setPressed(shieldOutput);
     m_controllerState.startButton.setPressed(m_actionStates[Action_start].isPressed());
     m_controllerState.dLeftButton.setPressed(m_actionStates[Action_dLeft].isPressed());
     m_controllerState.dRightButton.setPressed(m_actionStates[Action_dRight].isPressed());
