@@ -31,6 +31,10 @@ void DigitalMeleeController::update()
     cXAxisOutput = m_cXAxisRaw.getValue();
     cYAxisOutput = m_cYAxisRaw.getValue();
 
+    // Allow a special button to invert the x axis value.
+    if (m_actionStates[Action_invertXAxis].isPressed())
+        xAxisOutput = -xAxisOutput;
+
     // Handle short hop and full hop logic.
     if (m_useShortHopMacro)
     {

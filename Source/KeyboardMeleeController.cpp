@@ -38,6 +38,7 @@ KeyboardMeleeController::KeyboardMeleeController()
     bindKey(71, m_controller.Action_dUp);
 
     bindKey(32, m_controller.Action_chargeSmash);
+    bindKey(161, m_controller.Action_invertXAxis);
 }
 
 void KeyboardMeleeController::update()
