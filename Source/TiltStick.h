@@ -7,7 +7,7 @@ class TiltStick : public AnalogStick
 public:
     TiltStick(const float& tiltLevel);
 
-    void update(const bool& allowTilt, const bool& resetTilt);
+    void update(const bool& allowTilt, const bool& resetTilt, const bool& holdTilt);
 
     bool isTilting() const { return m_isTilting; }
 
