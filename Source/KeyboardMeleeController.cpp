@@ -7,6 +7,10 @@ KeyboardMeleeController::KeyboardMeleeController()
     bindKey(83, m_controller.Action_down);
     bindKey(68, m_controller.Action_right);
 
+    bindKey(164, m_controller.Action_xMod);
+    bindKey(32, m_controller.Action_yMod);
+    bindKey(20, m_controller.Action_tilt);
+
     bindKey(76, m_controller.Action_cLeft);
     bindKey(80, m_controller.Action_cUp);
     bindKey(222, m_controller.Action_cDown);
@@ -26,8 +30,6 @@ KeyboardMeleeController::KeyboardMeleeController()
     bindKey(220, m_controller.Action_fullHop);
 
     bindKey(53, m_controller.Action_start);
-
-    bindKey(20, m_controller.Action_tilt);
 
     bindKey(86, m_controller.Action_dLeft);
     bindKey(78, m_controller.Action_dRight);

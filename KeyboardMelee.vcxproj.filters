@@ -54,6 +54,9 @@
     <ClCompile Include="Source\BindList.cpp">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="Source\ModifierAngleStick.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Button.h">
@@ -102,6 +105,9 @@
       <Filter>Source</Filter>
     </ClInclude>
     <ClInclude Include="Source\BindList.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ModifierAngleStick.h">
       <Filter>Source</Filter>
     </ClInclude>
   </ItemGroup>

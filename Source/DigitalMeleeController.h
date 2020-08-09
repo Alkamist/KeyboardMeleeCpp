@@ -8,6 +8,7 @@
 #include "AirDodgeStick.h"
 #include "AStick.h"
 #include "BStick.h"
+#include "ModifierAngleStick.h"
 
 class DigitalMeleeController
 {
@@ -18,13 +19,16 @@ public:
 
     void setActionState(const int& actionID, const bool& actionState);
 
-    static const int numberOfActions = 23;
+    static const int numberOfActions = 25;
     enum Action
     {
         Action_left,
         Action_right,
         Action_down,
         Action_up,
+        Action_xMod,
+        Action_yMod,
+        Action_tilt,
         Action_cLeft,
         Action_cRight,
         Action_cDown,
@@ -39,7 +43,6 @@ public:
         Action_shield,
         Action_airDodge,
         Action_start,
-        Action_tilt,
         Action_dLeft,
         Action_dRight,
         Action_dDown,
@@ -69,4 +72,6 @@ private:
     AStick m_aStick;
     BStick m_bStick;
     bool m_previousDirectionIsRight{ true };
+
+    ModifierAngleStick m_modifierAngleStick;
 };

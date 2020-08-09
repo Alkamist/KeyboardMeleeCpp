@@ -42,6 +42,13 @@ void DigitalMeleeController::update()
         m_controllerState.yButton.setPressed(m_actionStates[Action_shortHop].isPressed());
     }
 
+    // Handle modifier angle logic.
+    m_modifierAngleStick.xAxis.setValue(xAxisOutput);
+    m_modifierAngleStick.yAxis.setValue(yAxisOutput);
+    m_modifierAngleStick.update(m_actionStates[Action_xMod].isPressed(), m_actionStates[Action_yMod].isPressed());
+    xAxisOutput = m_modifierAngleStick.xAxis.getValue();
+    yAxisOutput = m_modifierAngleStick.yAxis.getValue();
+
     // Handle A stick logic.
     if (!m_actionStates[Action_shield].isPressed())
     {

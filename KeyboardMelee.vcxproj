@@ -33,6 +33,7 @@
     <ClCompile Include="Source\KeyboardMeleeController.cpp" />
     <ClCompile Include="Source\Main.cpp" />
     <ClCompile Include="Source\Millis.cpp" />
+    <ClCompile Include="Source\ModifierAngleStick.cpp" />
     <ClCompile Include="Source\TiltStick.cpp" />
     <ClCompile Include="Source\VJoyWrapper.cpp" />
   </ItemGroup>
@@ -51,6 +52,7 @@
     <ClInclude Include="Source\Keyboard.h" />
     <ClInclude Include="Source\KeyboardMeleeController.h" />
     <ClInclude Include="Source\Millis.h" />
+    <ClInclude Include="Source\ModifierAngleStick.h" />
     <ClInclude Include="Source\TiltStick.h" />
     <ClInclude Include="Source\VJoyWrapper.h" />
   </ItemGroup>
