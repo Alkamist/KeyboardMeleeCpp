@@ -16,7 +16,8 @@ public:
     void bindKey(const int& keyCode, const int& actionID);
     void unbindKey(const int& keyCode, const int& actionID);
 
-    void saveKeyBinds();
+    const std::string getKeyBindSaveString();
+    void loadKeybindsFromSaveString(const std::string& saveString);
 
     const std::string getActionName(const int& actionID);
     int getActionCode(const std::string& actionName);

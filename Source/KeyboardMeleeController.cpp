@@ -90,7 +90,8 @@ KeyboardMeleeController::KeyboardMeleeController()
     bindKey(32, m_controller.Action_chargeSmash);
     bindKey(161, m_controller.Action_invertXAxis);
 
-    saveKeyBinds();
+    //std::cout << getKeyBindSaveString() << std::endl;
+    //loadKeybindsFromSaveString(getKeyBindSaveString());
 }
 
 void KeyboardMeleeController::update()
@@ -121,9 +122,9 @@ void KeyboardMeleeController::unbindKey(const int& keyCode, const int& actionID)
     m_actionKeys[actionID].unbind(keyCode);
 }
 
-void KeyboardMeleeController::saveKeyBinds()
+const std::string KeyboardMeleeController::getKeyBindSaveString()
 {
-    json j;
+    json jsonObject;
 
     for (int actionID = 0; actionID < DigitalMeleeController::numberOfActions; ++actionID)
     {
@@ -132,11 +133,29 @@ void KeyboardMeleeController::saveKeyBinds()
         {
             auto bind = binds[bindID];
             if (bind > -1)
-                j[getActionName(actionID)][bindID] = Keyboard::getKeyName(binds[bindID]);
+                jsonObject[getActionName(actionID)][bindID] = Keyboard::getKeyName(binds[bindID]);
         }
     }
 
-    std::cout << j.dump(4) << std::endl;
+    return jsonObject.dump(4);
+}
+
+void KeyboardMeleeController::loadKeybindsFromSaveString(const std::string& saveString)
+{
+    auto jsonObject = json::parse(saveString);
+
+    for (json::iterator it = jsonObject.begin(); it != jsonObject.end(); ++it) {
+        auto actionName = it.key();
+        auto bindArray = it.value();
+        auto actionID = getActionCode(actionName);
+
+        for (int bindID = 0; bindID < bindArray.size(); ++bindID)
+        {
+            auto bindName = bindArray[bindID];
+            auto bindCode = Keyboard::getKeyCode(bindName);
+            bindKey(bindCode, actionID);
+        }
+    }
 }
 
 const std::string KeyboardMeleeController::getActionName(const int& actionID)
