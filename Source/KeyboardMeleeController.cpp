@@ -1,7 +1,57 @@
 #include "KeyboardMeleeController.h"
 
+#include "json.hpp"
+using json = nlohmann::json;
+
+#include <iostream>
+
+static std::map<int, std::string> getActionNamesMap()
+{
+    std::map<int, std::string> x
+    {
+        { DigitalMeleeController::Action_left, "left" },
+        { DigitalMeleeController::Action_up, "up" },
+        { DigitalMeleeController::Action_down, "down" },
+        { DigitalMeleeController::Action_right, "right" },
+        { DigitalMeleeController::Action_xMod, "xMod" },
+        { DigitalMeleeController::Action_yMod, "yMod" },
+        { DigitalMeleeController::Action_tilt, "tilt" },
+        { DigitalMeleeController::Action_cLeft, "cLeft" },
+        { DigitalMeleeController::Action_cUp, "cUp" },
+        { DigitalMeleeController::Action_cDown, "cDown" },
+        { DigitalMeleeController::Action_cRight, "cRight" },
+        { DigitalMeleeController::Action_a, "a" },
+        { DigitalMeleeController::Action_bNeutralDown, "bNeutralDown" },
+        { DigitalMeleeController::Action_bUp, "bUp" },
+        { DigitalMeleeController::Action_bSide, "bSide" },
+        { DigitalMeleeController::Action_z, "z" },
+        { DigitalMeleeController::Action_shield, "shield" },
+        { DigitalMeleeController::Action_toggleLightShield, "toggleLightShield" },
+        { DigitalMeleeController::Action_airDodge, "airDodge" },
+        { DigitalMeleeController::Action_shortHop, "shortHop" },
+        { DigitalMeleeController::Action_fullHop, "fullHop" },
+        { DigitalMeleeController::Action_start, "start" },
+        { DigitalMeleeController::Action_dLeft, "dLeft" },
+        { DigitalMeleeController::Action_dRight, "dRight" },
+        { DigitalMeleeController::Action_dDown, "dDown" },
+        { DigitalMeleeController::Action_dUp, "dUp" },
+        { DigitalMeleeController::Action_chargeSmash, "chargeSmash" },
+        { DigitalMeleeController::Action_invertXAxis, "invertXAxis" },
+    };
+    return x;
+}
+
 KeyboardMeleeController::KeyboardMeleeController()
 {
+    Keyboard::initialize();
+
+    // Populate the action name map.
+    m_actionNames = getActionNamesMap();
+
+    // Populate the inverted action name map.
+    for (std::map<int, std::string>::iterator i = m_actionNames.begin(); i != m_actionNames.end(); ++i)
+        m_actionNameCodes[i->second] = i->first;
+
     bindKey(65, m_controller.Action_left);
     bindKey(87, m_controller.Action_up);
     bindKey(83, m_controller.Action_down);
@@ -39,6 +89,8 @@ KeyboardMeleeController::KeyboardMeleeController()
 
     bindKey(32, m_controller.Action_chargeSmash);
     bindKey(161, m_controller.Action_invertXAxis);
+
+    saveKeyBinds();
 }
 
 void KeyboardMeleeController::update()
@@ -68,6 +120,41 @@ void KeyboardMeleeController::unbindKey(const int& keyCode, const int& actionID)
 {
     m_actionKeys[actionID].unbind(keyCode);
 }
+
+void KeyboardMeleeController::saveKeyBinds()
+{
+    json j;
+
+    for (int actionID = 0; actionID < DigitalMeleeController::numberOfActions; ++actionID)
+    {
+        auto binds = m_actionKeys[actionID].getBinds();
+        for (int bindID = 0; bindID < BindList::maxBinds; ++bindID)
+        {
+            auto bind = binds[bindID];
+            if (bind > -1)
+                j[getActionName(actionID)][bindID] = Keyboard::getKeyName(binds[bindID]);
+        }
+    }
+
+    std::cout << j.dump(4) << std::endl;
+}
+
+const std::string KeyboardMeleeController::getActionName(const int& actionID)
+{
+    auto actionNotFound = m_actionNames.find(actionID) == m_actionNames.end();
+    if (actionNotFound)
+        return std::to_string(actionID);
+    return m_actionNames[actionID];
+}
+
+int KeyboardMeleeController::getActionCode(const std::string& actionName)
+{
+    auto actionNotFound = m_actionNameCodes.find(actionName) == m_actionNameCodes.end();
+    if (actionNotFound)
+        return -1;
+    return m_actionNameCodes[actionName];
+}
+
 
 void KeyboardMeleeController::m_updateController()
 {

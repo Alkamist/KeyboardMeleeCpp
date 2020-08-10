@@ -50,6 +50,7 @@
     <ClInclude Include="Source\DelayedButton.h" />
     <ClInclude Include="Source\DigitalMeleeController.h" />
     <ClInclude Include="Source\GameCubeControllerState.h" />
+    <ClInclude Include="Source\json.hpp" />
     <ClInclude Include="Source\JumpLogic.h" />
     <ClInclude Include="Source\Keyboard.h" />
     <ClInclude Include="Source\KeyboardMeleeController.h" />
