@@ -19,6 +19,7 @@ public:
     void update();
 
     void setActionState(const int& actionID, const bool& actionState);
+    void setUseShortHopMacro(const bool& state) { m_useShortHopMacro; }
 
     static const int numberOfActions = 28;
     enum Action

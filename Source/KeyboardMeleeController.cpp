@@ -53,18 +53,14 @@ KeyboardMeleeController::KeyboardMeleeController()
     for (std::map<int, std::string>::iterator i = m_actionNames.begin(); i != m_actionNames.end(); ++i)
         m_actionNameCodes[i->second] = i->first;
 
-    // Load keybinds from "MeleeKeybinds.json" if it exists, 
-    // otherwise load the default keybinds and save them to a file.
-    std::string keyBindFileName("MeleeKeybinds.json");
-    if (keyBindFileExists(keyBindFileName))
-    {
-        loadKeybindsFromFile(keyBindFileName);
-    }
-    else
-    {
-        loadDefaultKeybinds();
-        saveKeybindsToFile(keyBindFileName);
-    }
+    loadDefaultConfig();
+
+    // Load config from "KeyboardMeleeConfig.json" if it exists.
+    std::string configFileName("KeyboardMeleeConfig.json");
+    if (configFileExists(configFileName))
+        loadConfigFromFile(configFileName);
+
+    saveConfigToFile(configFileName);
 }
 
 void KeyboardMeleeController::update()
@@ -95,7 +91,7 @@ void KeyboardMeleeController::unbindKey(const int& keyCode, const int& actionID)
     m_actionKeys[actionID].unbind(keyCode);
 }
 
-const std::string KeyboardMeleeController::getKeyBindSaveString()
+const std::string KeyboardMeleeController::getConfigString()
 {
     json jsonObject;
 
@@ -105,24 +101,24 @@ const std::string KeyboardMeleeController::getKeyBindSaveString()
         for (int bindID = 0; bindID < BindList::maxBinds; ++bindID)
         {
             auto bind = binds[bindID];
-            if (bind > -1)
-                jsonObject[getActionName(actionID)][bindID] = Keyboard::getKeyName(binds[bindID]);
+            if (bind > -1 || bindID == 0)
+                jsonObject["keybinds"][getActionName(actionID)][bindID] = Keyboard::getKeyName(binds[bindID]);
         }
     }
 
-    jsonObject["toggleController"][0] = Keyboard::getKeyName(m_toggleControllerKeyCode);
+    jsonObject["keybinds"]["toggleController"][0] = Keyboard::getKeyName(m_toggleControllerKeyCode);
 
     return jsonObject.dump(4);
 }
 
-void KeyboardMeleeController::saveKeybindsToFile(const std::string& fileName)
+void KeyboardMeleeController::saveConfigToFile(const std::string& fileName)
 {
     std::ofstream out(fileName);
-    out << getKeyBindSaveString();
+    out << getConfigString();
     out.close();
 }
 
-bool KeyboardMeleeController::keyBindFileExists(const std::string& fileName)
+bool KeyboardMeleeController::configFileExists(const std::string& fileName)
 {
     std::ifstream fileStream;
     fileStream.open(fileName);
@@ -131,7 +127,7 @@ bool KeyboardMeleeController::keyBindFileExists(const std::string& fileName)
     return false;
 }
 
-void KeyboardMeleeController::loadDefaultKeybinds()
+void KeyboardMeleeController::loadDefaultConfig()
 {
     bindKey(65, m_controller.Action_left);
     bindKey(87, m_controller.Action_up);
@@ -174,12 +170,14 @@ void KeyboardMeleeController::loadDefaultKeybinds()
     m_toggleControllerKeyCode = 112;
 }
 
-void KeyboardMeleeController::loadKeybindsFromSaveString(const std::string& saveString)
+void KeyboardMeleeController::loadConfigFromString(const std::string& saveString)
 {
     auto jsonObject = json::parse(saveString);
+    auto keyBindJsonObject = jsonObject["keybinds"];
 
     // Bind the controller action keys.
-    for (json::iterator it = jsonObject.begin(); it != jsonObject.end(); ++it) {
+    for (json::iterator it = keyBindJsonObject.begin(); it != keyBindJsonObject.end(); ++it)
+    {
         auto actionName = it.key();
         auto bindArray = it.value();
 
@@ -193,26 +191,28 @@ void KeyboardMeleeController::loadKeybindsFromSaveString(const std::string& save
             {
                 auto bindName = bindArray[bindID];
                 auto bindCode = Keyboard::getKeyCode(bindName);
-                if (bindCode != -1)
+                if (bindCode > -1)
+                {
                     bindKey(bindCode, actionID);
+                }
             }
         }
     }
 
     // Bind the special toggle controller key.
-    auto noToggleControllerBind = jsonObject.find("toggleController") == jsonObject.end();
+    auto noToggleControllerBind = keyBindJsonObject.find("toggleController") == keyBindJsonObject.end();
     if (!noToggleControllerBind)
     {
-        m_toggleControllerKeyCode = Keyboard::getKeyCode(jsonObject["toggleController"][0]);
+        m_toggleControllerKeyCode = Keyboard::getKeyCode(keyBindJsonObject["toggleController"][0]);
     }
 }
 
-void KeyboardMeleeController::loadKeybindsFromFile(const std::string& fileName)
+void KeyboardMeleeController::loadConfigFromFile(const std::string& fileName)
 {
     std::ifstream fileStream(fileName);
     std::string fileString((std::istreambuf_iterator<char>(fileStream)),
                             std::istreambuf_iterator<char>());
-    loadKeybindsFromSaveString(fileString);
+    loadConfigFromString(fileString);
 }
 
 const std::string KeyboardMeleeController::getActionName(const int& actionID)
