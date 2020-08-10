@@ -177,13 +177,20 @@ void KeyboardMeleeController::loadKeybindsFromSaveString(const std::string& save
     for (json::iterator it = jsonObject.begin(); it != jsonObject.end(); ++it) {
         auto actionName = it.key();
         auto bindArray = it.value();
-        auto actionID = getActionCode(actionName);
 
-        for (int bindID = 0; bindID < bindArray.size(); ++bindID)
+        // Only load keybinds that are legitimate controller actions.
+        auto actionNotFound = m_actionNameCodes.find(actionName) == m_actionNameCodes.end();
+        if (!actionNotFound)
         {
-            auto bindName = bindArray[bindID];
-            auto bindCode = Keyboard::getKeyCode(bindName);
-            bindKey(bindCode, actionID);
+            auto actionID = getActionCode(actionName);
+
+            for (int bindID = 0; bindID < bindArray.size(); ++bindID)
+            {
+                auto bindName = bindArray[bindID];
+                auto bindCode = Keyboard::getKeyCode(bindName);
+                if (bindCode != -1)
+                    bindKey(bindCode, actionID);
+            }
         }
     }
 }
