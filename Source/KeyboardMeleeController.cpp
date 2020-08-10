@@ -53,14 +53,17 @@ KeyboardMeleeController::KeyboardMeleeController()
     for (std::map<int, std::string>::iterator i = m_actionNames.begin(); i != m_actionNames.end(); ++i)
         m_actionNameCodes[i->second] = i->first;
 
-    loadDefaultConfig();
-
     // Load config from "KeyboardMeleeConfig.json" if it exists.
     std::string configFileName("KeyboardMeleeConfig.json");
     if (configFileExists(configFileName))
+    {
         loadConfigFromFile(configFileName);
-
-    saveConfigToFile(configFileName);
+    }
+    else
+    {
+        loadDefaultConfig();
+        saveConfigToFile(configFileName);
+    }
 }
 
 void KeyboardMeleeController::update()
@@ -101,12 +104,13 @@ const std::string KeyboardMeleeController::getConfigString()
         for (int bindID = 0; bindID < BindList::maxBinds; ++bindID)
         {
             auto bind = binds[bindID];
-            if (bind > -1 || bindID == 0)
+            if (bind != -1 || bindID == 0)
                 jsonObject["keybinds"][getActionName(actionID)][bindID] = Keyboard::getKeyName(binds[bindID]);
         }
     }
 
     jsonObject["keybinds"]["toggleController"][0] = Keyboard::getKeyName(m_toggleControllerKeyCode);
+    jsonObject["useShortHopMacro"] = m_controller.isUsingShortHopMacro();
 
     return jsonObject.dump(4);
 }
@@ -191,7 +195,7 @@ void KeyboardMeleeController::loadConfigFromString(const std::string& saveString
             {
                 auto bindName = bindArray[bindID];
                 auto bindCode = Keyboard::getKeyCode(bindName);
-                if (bindCode > -1)
+                if (bindCode != -1)
                 {
                     bindKey(bindCode, actionID);
                 }
@@ -204,6 +208,12 @@ void KeyboardMeleeController::loadConfigFromString(const std::string& saveString
     if (!noToggleControllerBind)
     {
         m_toggleControllerKeyCode = Keyboard::getKeyCode(keyBindJsonObject["toggleController"][0]);
+    }
+
+    auto noShortHopMacroSpecifier = jsonObject.find("useShortHopMacro") == jsonObject.end();
+    if (!noShortHopMacroSpecifier)
+    {
+        m_controller.setUseShortHopMacro(jsonObject["useShortHopMacro"]);
     }
 }
 
