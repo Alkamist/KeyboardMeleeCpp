@@ -10,6 +10,7 @@
 #include "BStick.h"
 #include "ModifierAngleStick.h"
 #include "BackdashOutOfCrouchFix.h"
+#include "SafeGroundedDownBLogic.h"
 
 class DigitalMeleeController
 {
@@ -88,6 +89,8 @@ private:
     bool m_useExtraBButtons{ true };
     BStick m_bStick;
     bool m_previousDirectionIsRight{ true };
+
+    SafeGroundedDownBLogic m_safeGroundedDownBLogic;
 
     ModifierAngleStick m_modifierAngleStick;
 

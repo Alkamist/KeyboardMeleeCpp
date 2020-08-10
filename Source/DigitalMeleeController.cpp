@@ -125,6 +125,16 @@ void DigitalMeleeController::update()
         xAxisOutput = m_bStick.xAxis.getValue();
         yAxisOutput = m_bStick.yAxis.getValue();
     }
+    else
+    {
+        m_safeGroundedDownBLogic.xAxis.setValue(xAxisOutput);
+        m_safeGroundedDownBLogic.yAxis.setValue(yAxisOutput);
+        m_safeGroundedDownBLogic.update(m_actionStates[Action_b].isPressed(), 
+                                        m_actionStates[Action_down].isPressed(), 
+                                        m_actionStates[Action_up].isPressed());
+        xAxisOutput = m_safeGroundedDownBLogic.xAxis.getValue();
+        yAxisOutput = m_safeGroundedDownBLogic.yAxis.getValue();
+    }
 
     // Handle shield tilt stick logic.
     m_shieldTiltStick.xAxis.setValue(xAxisOutput);

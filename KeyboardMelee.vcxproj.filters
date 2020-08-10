@@ -60,6 +60,9 @@
     <ClCompile Include="Source\BackdashOutOfCrouchFix.cpp">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="Source\SafeGroundedDownBLogic.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Button.h">
@@ -117,6 +120,9 @@
       <Filter>Source</Filter>
     </ClInclude>
     <ClInclude Include="Source\json.hpp">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\SafeGroundedDownBLogic.h">
       <Filter>Source</Filter>
     </ClInclude>
   </ItemGroup>
