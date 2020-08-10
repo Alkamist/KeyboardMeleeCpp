@@ -19,8 +19,15 @@ public:
     void update();
 
     void setActionState(const int& actionID, const bool& actionState);
+
     void setUseShortHopMacro(const bool& state) { m_useShortHopMacro = state; }
     bool isUsingShortHopMacro() const { return m_useShortHopMacro; }
+
+    void setUseCStickTilting(const bool& state) { m_useCStickTilting = state; }
+    bool isUsingCStickTilting() const { return m_useCStickTilting; }
+
+    void setUseExtraBButtons(const bool& state) { m_useExtraBButtons = state; }
+    bool isUsingExtraBButtons() const { return m_useExtraBButtons; }
 
     static const int numberOfActions = 28;
     enum Action
@@ -39,7 +46,7 @@ public:
         Action_shortHop,
         Action_fullHop,
         Action_a,
-        Action_bNeutralDown,
+        Action_b,
         Action_bUp,
         Action_bSide,
         Action_z,
@@ -75,7 +82,10 @@ private:
     TiltStick m_shieldTiltStick{ 0.6625f };
     AirDodgeStick m_airDodgeStick;
 
+    bool m_useCStickTilting{ true };
     AStick m_aStick;
+
+    bool m_useExtraBButtons{ true };
     BStick m_bStick;
     bool m_previousDirectionIsRight{ true };
 

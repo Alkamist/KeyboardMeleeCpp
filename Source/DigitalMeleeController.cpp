@@ -18,7 +18,7 @@ void DigitalMeleeController::update()
     float lAnalogOutput = 0.0f;
 
     bool aOutput = m_actionStates[Action_a].isPressed();
-    bool bOutput = false;
+    bool bOutput = m_actionStates[Action_b].isPressed() && !m_useExtraBButtons;
     bool shieldOutput = m_actionStates[Action_shield].isPressed();
 
     m_xAxisRaw.setValueFromButtons(m_actionStates[Action_left], m_actionStates[Action_right]);
@@ -59,7 +59,7 @@ void DigitalMeleeController::update()
     if (!(m_actionStates[Action_fullHop].isPressed() || m_actionStates[Action_shortHop].isPressed()
         || m_actionStates[Action_airDodge].isPressed() || m_actionStates[Action_shield].isPressed()
         || m_actionStates[Action_z].isPressed() || m_actionStates[Action_a].isPressed()
-        || m_actionStates[Action_bNeutralDown].isPressed() || m_actionStates[Action_bSide].isPressed()
+        || m_actionStates[Action_b].isPressed() || m_actionStates[Action_bSide].isPressed()
         || m_actionStates[Action_bUp].isPressed() || m_actionStates[Action_tilt].isPressed()))
     {
         xAxisOutput = m_backdashOutOfCrouchFix.xAxis.getValue();
@@ -74,7 +74,7 @@ void DigitalMeleeController::update()
     yAxisOutput = m_modifierAngleStick.yAxis.getValue();
 
     // Handle A stick logic.
-    if (!m_actionStates[Action_shield].isPressed())
+    if (m_useCStickTilting && !m_actionStates[Action_shield].isPressed())
     {
         bool aStickModifier = m_actionStates[Action_tilt].isPressed();
         m_aStick.xAxis.setValue(xAxisOutput);
@@ -110,18 +110,21 @@ void DigitalMeleeController::update()
     else if (xAxisOutput < 0.0f)
         m_previousDirectionIsRight = false;
 
-    m_bStick.xAxis.setValue(xAxisOutput);
-    m_bStick.yAxis.setValue(yAxisOutput);
-    m_bStick.update(m_actionStates[Action_shield].isPressed(),
-                    m_actionStates[Action_bNeutralDown].isPressed() && !m_actionStates[Action_down].isPressed(),
-                    m_actionStates[Action_bSide].isPressed() && !m_previousDirectionIsRight,
-                    m_actionStates[Action_bSide].isPressed() && m_previousDirectionIsRight,
-                    m_actionStates[Action_bNeutralDown].isPressed() && m_actionStates[Action_down].isPressed(),
-                    m_actionStates[Action_bUp].isPressed());
+    if (m_useExtraBButtons)
+    {
+        m_bStick.xAxis.setValue(xAxisOutput);
+        m_bStick.yAxis.setValue(yAxisOutput);
+        m_bStick.update(m_actionStates[Action_shield].isPressed(),
+                        m_actionStates[Action_b].isPressed() && !m_actionStates[Action_down].isPressed(),
+                        m_actionStates[Action_bSide].isPressed() && !m_previousDirectionIsRight,
+                        m_actionStates[Action_bSide].isPressed() && m_previousDirectionIsRight,
+                        m_actionStates[Action_b].isPressed() && m_actionStates[Action_down].isPressed(),
+                        m_actionStates[Action_bUp].isPressed());
 
-    bOutput = m_bStick.outputButton.isPressed();
-    xAxisOutput = m_bStick.xAxis.getValue();
-    yAxisOutput = m_bStick.yAxis.getValue();
+        bOutput = m_bStick.outputButton.isPressed();
+        xAxisOutput = m_bStick.xAxis.getValue();
+        yAxisOutput = m_bStick.yAxis.getValue();
+    }
 
     // Handle shield tilt stick logic.
     m_shieldTiltStick.xAxis.setValue(xAxisOutput);

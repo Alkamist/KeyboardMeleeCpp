@@ -22,7 +22,7 @@ static std::map<int, std::string> getActionNamesMap()
         { DigitalMeleeController::Action_cDown, "cDown" },
         { DigitalMeleeController::Action_cRight, "cRight" },
         { DigitalMeleeController::Action_a, "a" },
-        { DigitalMeleeController::Action_bNeutralDown, "bNeutralDown" },
+        { DigitalMeleeController::Action_b, "b" },
         { DigitalMeleeController::Action_bUp, "bUp" },
         { DigitalMeleeController::Action_bSide, "bSide" },
         { DigitalMeleeController::Action_z, "z" },
@@ -53,7 +53,8 @@ KeyboardMeleeController::KeyboardMeleeController()
     for (std::map<int, std::string>::iterator i = m_actionNames.begin(); i != m_actionNames.end(); ++i)
         m_actionNameCodes[i->second] = i->first;
 
-    // Load config from "KeyboardMeleeConfig.json" if it exists.
+    // Load config from "KeyboardMeleeConfig.json" if it exists,
+    // otherwise load the default config and save to a file.
     std::string configFileName("KeyboardMeleeConfig.json");
     if (configFileExists(configFileName))
     {
@@ -111,6 +112,8 @@ const std::string KeyboardMeleeController::getConfigString()
 
     jsonObject["keybinds"]["toggleController"][0] = Keyboard::getKeyName(m_toggleControllerKeyCode);
     jsonObject["useShortHopMacro"] = m_controller.isUsingShortHopMacro();
+    jsonObject["useCStickTilting"] = m_controller.isUsingCStickTilting();
+    jsonObject["useExtraBButtons"] = m_controller.isUsingExtraBButtons();
 
     return jsonObject.dump(4);
 }
@@ -148,7 +151,7 @@ void KeyboardMeleeController::loadDefaultConfig()
     bindKey(191, m_controller.Action_cRight);
 
     bindKey(92, m_controller.Action_a);
-    bindKey(165, m_controller.Action_bNeutralDown);
+    bindKey(165, m_controller.Action_b);
     bindKey(8, m_controller.Action_bUp);
     bindKey(13, m_controller.Action_bSide);
     bindKey(187, m_controller.Action_z);
@@ -172,6 +175,8 @@ void KeyboardMeleeController::loadDefaultConfig()
     bindKey(161, m_controller.Action_invertXAxis);
 
     m_toggleControllerKeyCode = 112;
+    m_controller.setUseCStickTilting(true);
+    m_controller.setUseExtraBButtons(true);
 }
 
 void KeyboardMeleeController::loadConfigFromString(const std::string& saveString)
@@ -206,15 +211,19 @@ void KeyboardMeleeController::loadConfigFromString(const std::string& saveString
     // Bind the special toggle controller key.
     auto noToggleControllerBind = keyBindJsonObject.find("toggleController") == keyBindJsonObject.end();
     if (!noToggleControllerBind)
-    {
         m_toggleControllerKeyCode = Keyboard::getKeyCode(keyBindJsonObject["toggleController"][0]);
-    }
 
-    auto noShortHopMacroSpecifier = jsonObject.find("useShortHopMacro") == jsonObject.end();
-    if (!noShortHopMacroSpecifier)
-    {
+    auto noShortHopMacroOption = jsonObject.find("useShortHopMacro") == jsonObject.end();
+    if (!noShortHopMacroOption)
         m_controller.setUseShortHopMacro(jsonObject["useShortHopMacro"]);
-    }
+
+    auto noCStickTiltingOption = jsonObject.find("useCStickTilting") == jsonObject.end();
+    if (!noCStickTiltingOption)
+        m_controller.setUseCStickTilting(jsonObject["useCStickTilting"]);
+
+    auto noExtraBButtonsOption = jsonObject.find("useExtraBButtons") == jsonObject.end();
+    if (!noExtraBButtonsOption)
+        m_controller.setUseExtraBButtons(jsonObject["useExtraBButtons"]);
 }
 
 void KeyboardMeleeController::loadConfigFromFile(const std::string& fileName)
