@@ -110,6 +110,8 @@ const std::string KeyboardMeleeController::getKeyBindSaveString()
         }
     }
 
+    jsonObject["toggleController"][0] = Keyboard::getKeyName(m_toggleControllerKeyCode);
+
     return jsonObject.dump(4);
 }
 
@@ -168,12 +170,15 @@ void KeyboardMeleeController::loadDefaultKeybinds()
 
     bindKey(32, m_controller.Action_chargeSmash);
     bindKey(161, m_controller.Action_invertXAxis);
+
+    m_toggleControllerKeyCode = 112;
 }
 
 void KeyboardMeleeController::loadKeybindsFromSaveString(const std::string& saveString)
 {
     auto jsonObject = json::parse(saveString);
 
+    // Bind the controller action keys.
     for (json::iterator it = jsonObject.begin(); it != jsonObject.end(); ++it) {
         auto actionName = it.key();
         auto bindArray = it.value();
@@ -192,6 +197,13 @@ void KeyboardMeleeController::loadKeybindsFromSaveString(const std::string& save
                     bindKey(bindCode, actionID);
             }
         }
+    }
+
+    // Bind the special toggle controller key.
+    auto noToggleControllerBind = jsonObject.find("toggleController") == jsonObject.end();
+    if (!noToggleControllerBind)
+    {
+        m_toggleControllerKeyCode = Keyboard::getKeyCode(jsonObject["toggleController"][0]);
     }
 }
 
