@@ -18,6 +18,11 @@ public:
 
     const std::string getKeyBindSaveString();
     void loadKeybindsFromSaveString(const std::string& saveString);
+    void loadKeybindsFromFile(const std::string& fileName);
+    void saveKeybindsToFile(const std::string& fileName);
+    bool keyBindFileExists(const std::string& fileName);
+
+    void loadDefaultKeybinds();
 
     const std::string getActionName(const int& actionID);
     int getActionCode(const std::string& actionName);
