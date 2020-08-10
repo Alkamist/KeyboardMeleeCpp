@@ -124,7 +124,7 @@ void KeyboardMeleeController::saveKeybindsToFile(const std::string& fileName)
 
 bool KeyboardMeleeController::keyBindFileExists(const std::string& fileName)
 {
-    std::fstream fileStream;
+    std::ifstream fileStream;
     fileStream.open(fileName);
     if (fileStream.is_open())
         return true;

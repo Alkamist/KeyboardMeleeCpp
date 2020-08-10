@@ -1,31 +1,55 @@
 #include "VJoyWrapper.h"
 
 #include <iostream>
+#include <fstream>
 
-VJoyWrapper::VJoyWrapper(const std::string& dllPath, const unsigned int& deviceID)
+#include "json.hpp"
+using json = nlohmann::json;
+
+VJoyWrapper::VJoyWrapper()
 {
-    m_joystickData.bDevice = unsigned char(deviceID);
+    std::ifstream readFileStream;
+    readFileStream.open("vJoyConfig.json");
 
-    HINSTANCE dllID;
+    std::string dllPath("C:\\Program Files\\vJoy\\x64\\vJoyInterface.dll");
+    UINT deviceID = 1;
 
-    try
+    if (readFileStream.is_open())
     {
-        dllID = LoadLibrary(dllPath.c_str());
-        if (!dllID) throw 1;
+        std::string fileString((std::istreambuf_iterator<char>(readFileStream)),
+            std::istreambuf_iterator<char>());
+
+        auto jsonObject = json::parse(fileString);
+
+        auto dllPathNotFound = jsonObject.find("dllPath") == jsonObject.end();
+        if (!dllPathNotFound)
+            dllPath = jsonObject["dllPath"];
+
+        auto deviceIDNotFound = jsonObject.find("deviceID") == jsonObject.end();
+        if (!deviceIDNotFound)
+            deviceID = jsonObject["deviceID"];
     }
-    catch (int)
+    else
     {
+        json jsonObject
+        {
+            { "dllPath", dllPath },
+            { "deviceID", deviceID }
+        };
+
+        std::ofstream writeFileStream("vJoyConfig.json");
+        writeFileStream << jsonObject.dump(4);
+    }
+
+    if (setDLLPath(dllPath))
+    {
+        m_loadedProperly = true;
+        setDeviceID(deviceID);
+    }
+    else
+    {
+        m_loadedProperly = false;
         std::cout << "vJoy failed to load." << std::endl;
-    }
-
-    m_vJoyEnabled = (vJoyEnabledFunction)(GetProcAddress(dllID, "vJoyEnabled"));
-    m_acquireVJD = (acquireVJDFunction)(GetProcAddress(dllID, "AcquireVJD"));
-    m_relinquishVJD = (relinquishVJDFunction)(GetProcAddress(dllID, "RelinquishVJD"));
-    m_updateVJD = (updateVJDFunction)(GetProcAddress(dllID, "UpdateVJD"));
-
-    if (m_vJoyEnabled())
-    {
-        m_acquireVJD(m_joystickData.bDevice);
     }
 }
 
@@ -34,7 +58,7 @@ VJoyWrapper::~VJoyWrapper()
     m_relinquishVJD(m_joystickData.bDevice);
 }
 
-void VJoyWrapper::setButton(const unsigned int& button_id, const bool& state)
+void VJoyWrapper::setButton(const UINT& button_id, const bool& state)
 {
     unsigned int bit_index = button_id - 1;
     if (state)
@@ -47,15 +71,15 @@ void VJoyWrapper::setButton(const unsigned int& button_id, const bool& state)
     }
 }
 
-static long getScaledAxisValue(const float& value)
+static LONG getScaledAxisValue(const float& value)
 {
     float scaledValue = 0.5f * (0.626f * value + 1.0f);
-    return long(scaledValue * 0x8000);
+    return LONG(scaledValue * 0x8000);
 }
 
-static long getScaledSliderValue(const float& value)
+static LONG getScaledSliderValue(const float& value)
 {
-    return long(value * 0x8000);
+    return LONG(value * 0x8000);
 }
 
 void VJoyWrapper::setAxis(const VjoyAxis& axis, const float& value)
@@ -86,4 +110,36 @@ void VJoyWrapper::setAxis(const VjoyAxis& axis, const float& value)
 void VJoyWrapper::sendInputs()
 {
     m_updateVJD(m_joystickData.bDevice, m_joystickData);
+}
+
+int VJoyWrapper::setDLLPath(const std::string& dllPath)
+{
+    if (m_vJoyDLL != nullptr)
+        FreeLibrary(m_vJoyDLL);
+
+    m_vJoyDLL = LoadLibrary(dllPath.c_str());
+
+    if (!m_vJoyDLL) 
+        return 0;
+
+    m_vJoyEnabled = (vJoyEnabledFunction)(GetProcAddress(m_vJoyDLL, "vJoyEnabled"));
+    m_acquireVJD = (acquireVJDFunction)(GetProcAddress(m_vJoyDLL, "AcquireVJD"));
+    m_relinquishVJD = (relinquishVJDFunction)(GetProcAddress(m_vJoyDLL, "RelinquishVJD"));
+    m_updateVJD = (updateVJDFunction)(GetProcAddress(m_vJoyDLL, "UpdateVJD"));
+
+    return 1;
+}
+
+void VJoyWrapper::setDeviceID(const UINT& deviceID)
+{
+    if (m_isUsingVJoyDevice)
+        m_relinquishVJD(m_joystickData.bDevice);
+
+    m_isUsingVJoyDevice = true;
+    m_joystickData.bDevice = BYTE(deviceID);
+
+    if (m_vJoyEnabled())
+    {
+        m_acquireVJD(m_joystickData.bDevice);
+    }
 }
