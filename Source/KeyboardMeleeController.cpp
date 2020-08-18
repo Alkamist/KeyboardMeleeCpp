@@ -6,10 +6,8 @@ using json = nlohmann::json;
 #include <iostream>
 #include <fstream>
 
-static std::map<int, std::string> getActionNamesMap()
-{
-    std::map<int, std::string> x
-    {
+static std::map<int, std::string> getActionNamesMap() {
+    std::map<int, std::string> x {
         { DigitalMeleeController::Action_left, "left" },
         { DigitalMeleeController::Action_up, "up" },
         { DigitalMeleeController::Action_down, "down" },
@@ -42,8 +40,7 @@ static std::map<int, std::string> getActionNamesMap()
     return x;
 }
 
-KeyboardMeleeController::KeyboardMeleeController()
-{
+KeyboardMeleeController::KeyboardMeleeController() {
     Keyboard::initialize();
 
     // Populate the action name map.
@@ -56,54 +53,44 @@ KeyboardMeleeController::KeyboardMeleeController()
     // Load config from "KeyboardMeleeConfig.json" if it exists,
     // otherwise load the default config and save to a file.
     std::string configFileName("KeyboardMeleeConfig.json");
-    if (configFileExists(configFileName))
-    {
+    if (configFileExists(configFileName)) {
         loadConfigFromFile(configFileName);
     }
-    else
-    {
+    else {
         loadDefaultConfig();
         saveConfigToFile(configFileName);
     }
 }
 
-void KeyboardMeleeController::update()
-{
+void KeyboardMeleeController::update() {
     Keyboard::update();
 
     // Use a special key to toggle the controller and key blocks on and off.
-    if (Keyboard::keys[m_toggleControllerKeyCode].justPressed())
-    {
+    if (Keyboard::keys[m_toggleControllerKeyCode].justPressed()) {
         m_isEnabled = !m_isEnabled;
         Keyboard::blockKeyPresses = m_isEnabled;
     }
 
-    if (m_isEnabled)
-    {
+    if (m_isEnabled) {
         // Update the controller action states via the appropriate key presses.
         m_updateController();
     }
 }
 
-void KeyboardMeleeController::bindKey(const int& keyCode, const int& actionID)
-{
+void KeyboardMeleeController::bindKey(const int& keyCode, const int& actionID) {
     m_actionKeys[actionID].bind(keyCode);
 }
 
-void KeyboardMeleeController::unbindKey(const int& keyCode, const int& actionID)
-{
+void KeyboardMeleeController::unbindKey(const int& keyCode, const int& actionID) {
     m_actionKeys[actionID].unbind(keyCode);
 }
 
-const std::string KeyboardMeleeController::getConfigString()
-{
+const std::string KeyboardMeleeController::getConfigString() {
     json jsonObject;
 
-    for (int actionID = 0; actionID < DigitalMeleeController::numberOfActions; ++actionID)
-    {
+    for (int actionID = 0; actionID < DigitalMeleeController::numberOfActions; ++actionID) {
         auto binds = m_actionKeys[actionID].getBinds();
-        for (int bindID = 0; bindID < BindList::maxBinds; ++bindID)
-        {
+        for (int bindID = 0; bindID < BindList::maxBinds; ++bindID) {
             auto bind = binds[bindID];
             if (bind != -1 || bindID == 0)
                 jsonObject["keybinds"][getActionName(actionID)][bindID] = Keyboard::getKeyName(binds[bindID]);
@@ -118,15 +105,13 @@ const std::string KeyboardMeleeController::getConfigString()
     return jsonObject.dump(4);
 }
 
-void KeyboardMeleeController::saveConfigToFile(const std::string& fileName)
-{
+void KeyboardMeleeController::saveConfigToFile(const std::string& fileName) {
     std::ofstream out(fileName);
     out << getConfigString();
     out.close();
 }
 
-bool KeyboardMeleeController::configFileExists(const std::string& fileName)
-{
+bool KeyboardMeleeController::configFileExists(const std::string& fileName) {
     std::ifstream fileStream;
     fileStream.open(fileName);
     if (fileStream.is_open())
@@ -134,8 +119,7 @@ bool KeyboardMeleeController::configFileExists(const std::string& fileName)
     return false;
 }
 
-void KeyboardMeleeController::loadDefaultConfig()
-{
+void KeyboardMeleeController::loadDefaultConfig() {
     bindKey(65, m_controller.Action_left);
     bindKey(87, m_controller.Action_up);
     bindKey(83, m_controller.Action_down);
@@ -179,25 +163,21 @@ void KeyboardMeleeController::loadDefaultConfig()
     m_controller.setUseExtraBButtons(true);
 }
 
-void KeyboardMeleeController::loadConfigFromString(const std::string& saveString)
-{
+void KeyboardMeleeController::loadConfigFromString(const std::string& saveString) {
     auto jsonObject = json::parse(saveString);
     auto keyBindJsonObject = jsonObject["keybinds"];
 
     // Bind the controller action keys.
-    for (json::iterator it = keyBindJsonObject.begin(); it != keyBindJsonObject.end(); ++it)
-    {
+    for (json::iterator it = keyBindJsonObject.begin(); it != keyBindJsonObject.end(); ++it) {
         auto actionName = it.key();
         auto bindArray = it.value();
 
         // Only load keybinds that are legitimate controller actions.
         auto actionNotFound = m_actionNameCodes.find(actionName) == m_actionNameCodes.end();
-        if (!actionNotFound)
-        {
+        if (!actionNotFound) {
             auto actionID = getActionCode(actionName);
 
-            for (int bindID = 0; bindID < bindArray.size(); ++bindID)
-            {
+            for (int bindID = 0; bindID < bindArray.size(); ++bindID) {
                 auto bindName = bindArray[bindID];
                 auto bindCode = Keyboard::getKeyCode(bindName);
                 if (bindCode != -1)
@@ -226,49 +206,40 @@ void KeyboardMeleeController::loadConfigFromString(const std::string& saveString
         m_controller.setUseExtraBButtons(jsonObject["useExtraBButtons"]);
 }
 
-void KeyboardMeleeController::loadConfigFromFile(const std::string& fileName)
-{
+void KeyboardMeleeController::loadConfigFromFile(const std::string& fileName) {
     std::ifstream fileStream(fileName);
     std::string fileString((std::istreambuf_iterator<char>(fileStream)),
                             std::istreambuf_iterator<char>());
     loadConfigFromString(fileString);
 }
 
-const std::string KeyboardMeleeController::getActionName(const int& actionID)
-{
+const std::string KeyboardMeleeController::getActionName(const int& actionID) {
     auto actionNotFound = m_actionNames.find(actionID) == m_actionNames.end();
     if (actionNotFound)
         return "undefined";
     return m_actionNames[actionID];
 }
 
-int KeyboardMeleeController::getActionCode(const std::string& actionName)
-{
+int KeyboardMeleeController::getActionCode(const std::string& actionName) {
     auto actionNotFound = m_actionNameCodes.find(actionName) == m_actionNameCodes.end();
     if (actionNotFound)
         return -1;
     return m_actionNameCodes[actionName];
 }
 
-void KeyboardMeleeController::m_updateController()
-{
-    for (int actionID = 0; actionID < DigitalMeleeController::numberOfActions; ++actionID)
-    {
+void KeyboardMeleeController::m_updateController() {
+    for (int actionID = 0; actionID < DigitalMeleeController::numberOfActions; ++actionID) {
         bool anotherKeyIsPressed = false;
         auto actionKeyBinds = m_actionKeys[actionID].getBinds();
-        for (int bindIndex = 0; bindIndex < BindList::maxBinds; ++bindIndex)
-        {
+        for (int bindIndex = 0; bindIndex < BindList::maxBinds; ++bindIndex) {
             auto keyCode = actionKeyBinds[bindIndex];
-            if (keyCode > -1)
-            {
+            if (keyCode > -1) {
                 bool actionKeyIsPressed = Keyboard::keys[keyCode].isPressed();
-                if (actionKeyIsPressed)
-                {
+                if (actionKeyIsPressed) {
                     anotherKeyIsPressed = true;
                     m_controller.setActionState(actionID, true);
                 }
-                else
-                {
+                else {
                     if (!anotherKeyIsPressed)
                         m_controller.setActionState(actionID, false);
                 }

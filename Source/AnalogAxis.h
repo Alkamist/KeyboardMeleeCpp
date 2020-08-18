@@ -2,7 +2,7 @@
 
 #include "Button.h"
 
-class AnalogAxis
+class AnalogAxis 
 {
 public:
     AnalogAxis(){};

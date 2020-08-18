@@ -3,7 +3,7 @@
 #include "Button.h"
 #include "AnalogStick.h"
 
-class AirDodgeStick : public AnalogStick
+class AirDodgeStick : public AnalogStick 
 {
 public:
     void update(const bool& airDodgeState, 

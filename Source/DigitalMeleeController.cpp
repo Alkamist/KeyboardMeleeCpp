@@ -1,13 +1,11 @@
 #include "DigitalMeleeController.h"
 
-DigitalMeleeController::DigitalMeleeController()
-{
+DigitalMeleeController::DigitalMeleeController() {
     for (int i = 0; i < numberOfActions; ++i)
         m_pendingActionStates[i] = false;
 }
 
-void DigitalMeleeController::update()
-{
+void DigitalMeleeController::update() {
     for (int i = 0; i < numberOfActions; ++i)
         m_actionStates[i].setPressed(m_pendingActionStates[i]);
 
@@ -36,14 +34,12 @@ void DigitalMeleeController::update()
         xAxisOutput = -xAxisOutput;
 
     // Handle short hop and full hop logic.
-    if (m_useShortHopMacro)
-    {
+    if (m_useShortHopMacro) {
         m_jumpLogic.update(m_actionStates[Action_shortHop].isPressed(), m_actionStates[Action_fullHop].isPressed());
         m_controllerState.xButton.setPressed(m_jumpLogic.getFullHopOutput());
         m_controllerState.yButton.setPressed(m_jumpLogic.getShortHopOutput());
     }
-    else
-    {
+    else {
         m_controllerState.xButton.setPressed(m_actionStates[Action_fullHop].isPressed());
         m_controllerState.yButton.setPressed(m_actionStates[Action_shortHop].isPressed());
     }
@@ -60,8 +56,7 @@ void DigitalMeleeController::update()
         || m_actionStates[Action_airDodge].isPressed() || m_actionStates[Action_shield].isPressed()
         || m_actionStates[Action_z].isPressed() || m_actionStates[Action_a].isPressed()
         || m_actionStates[Action_b].isPressed() || m_actionStates[Action_bSide].isPressed()
-        || m_actionStates[Action_bUp].isPressed() || m_actionStates[Action_tilt].isPressed()))
-    {
+        || m_actionStates[Action_bUp].isPressed() || m_actionStates[Action_tilt].isPressed())) {
         xAxisOutput = m_backdashOutOfCrouchFix.xAxis.getValue();
         yAxisOutput = m_backdashOutOfCrouchFix.yAxis.getValue();
     }
@@ -74,8 +69,7 @@ void DigitalMeleeController::update()
     yAxisOutput = m_modifierAngleStick.yAxis.getValue();
 
     // Handle A stick logic.
-    if (m_useCStickTilting && !m_actionStates[Action_shield].isPressed())
-    {
+    if (m_useCStickTilting && !m_actionStates[Action_shield].isPressed()) {
         bool aStickModifier = m_actionStates[Action_tilt].isPressed();
         m_aStick.xAxis.setValue(xAxisOutput);
         m_aStick.yAxis.setValue(yAxisOutput);
@@ -88,8 +82,7 @@ void DigitalMeleeController::update()
         aOutput = m_aStick.outputButton.isPressed();
         xAxisOutput = m_aStick.xAxis.getValue();
         yAxisOutput = m_aStick.yAxis.getValue();
-        if (aStickModifier)
-        {
+        if (aStickModifier) {
             cXAxisOutput = 0.0f;
             cYAxisOutput = 0.0f;
         }
@@ -110,8 +103,7 @@ void DigitalMeleeController::update()
     else if (xAxisOutput < 0.0f)
         m_previousDirectionIsRight = false;
 
-    if (m_useExtraBButtons)
-    {
+    if (m_useExtraBButtons) {
         m_bStick.xAxis.setValue(xAxisOutput);
         m_bStick.yAxis.setValue(yAxisOutput);
         m_bStick.update(m_actionStates[Action_shield].isPressed(),
@@ -125,8 +117,7 @@ void DigitalMeleeController::update()
         xAxisOutput = m_bStick.xAxis.getValue();
         yAxisOutput = m_bStick.yAxis.getValue();
     }
-    else
-    {
+    else {
         m_safeGroundedDownBLogic.xAxis.setValue(xAxisOutput);
         m_safeGroundedDownBLogic.yAxis.setValue(yAxisOutput);
         m_safeGroundedDownBLogic.update(m_actionStates[Action_b].isPressed(), 
@@ -173,8 +164,7 @@ void DigitalMeleeController::update()
         m_isLightShielding = !m_isLightShielding;
     if (m_actionStates[Action_shield].justReleased())
         m_isLightShielding = false;
-    if (m_isLightShielding)
-    {
+    if (m_isLightShielding) {
         shieldOutput = false;
         lAnalogOutput = float(43 + 1) / 255.0f;
     }
@@ -199,7 +189,6 @@ void DigitalMeleeController::update()
     m_controllerState.dUpButton.setPressed(m_actionStates[Action_dUp].isPressed());
 }
 
-void DigitalMeleeController::setActionState(const int& actionID, const bool& actionState)
-{
+void DigitalMeleeController::setActionState(const int& actionID, const bool& actionState) {
     m_pendingActionStates[actionID] = actionState;
 }

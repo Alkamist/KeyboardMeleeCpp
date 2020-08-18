@@ -6,16 +6,14 @@
 #include "json.hpp"
 using json = nlohmann::json;
 
-VJoyWrapper::VJoyWrapper()
-{
+VJoyWrapper::VJoyWrapper() {
     std::ifstream readFileStream;
     readFileStream.open("vJoyConfig.json");
 
     std::string dllPath("C:\\Program Files\\vJoy\\x64\\vJoyInterface.dll");
     UINT deviceID = 1;
 
-    if (readFileStream.is_open())
-    {
+    if (readFileStream.is_open()) {
         std::string fileString((std::istreambuf_iterator<char>(readFileStream)),
             std::istreambuf_iterator<char>());
 
@@ -29,10 +27,8 @@ VJoyWrapper::VJoyWrapper()
         if (!deviceIDNotFound)
             deviceID = jsonObject["deviceID"];
     }
-    else
-    {
-        json jsonObject
-        {
+    else {
+        json jsonObject {
             { "dllPath", dllPath },
             { "deviceID", deviceID }
         };
@@ -41,51 +37,41 @@ VJoyWrapper::VJoyWrapper()
         writeFileStream << jsonObject.dump(4);
     }
 
-    if (setDLLPath(dllPath))
-    {
+    if (setDLLPath(dllPath)) {
         m_loadedProperly = true;
         setDeviceID(deviceID);
     }
-    else
-    {
+    else {
         m_loadedProperly = false;
         std::cout << "vJoy failed to load." << std::endl;
     }
 }
 
-VJoyWrapper::~VJoyWrapper()
-{
+VJoyWrapper::~VJoyWrapper() {
     m_relinquishVJD(m_joystickData.bDevice);
 }
 
-void VJoyWrapper::setButton(const UINT& button_id, const bool& state)
-{
+void VJoyWrapper::setButton(const UINT& button_id, const bool& state) {
     unsigned int bit_index = button_id - 1;
-    if (state)
-    {
+    if (state) {
         m_joystickData.lButtons = m_joystickData.lButtons | (1 << bit_index);
     }
-    else
-    {
+    else {
         m_joystickData.lButtons = m_joystickData.lButtons & ~(1 << bit_index);
     }
 }
 
-static LONG getScaledAxisValue(const float& value)
-{
+static LONG getScaledAxisValue(const float& value) {
     float scaledValue = 0.5f * (0.626f * value + 1.0f);
     return LONG(scaledValue * 0x8000);
 }
 
-static LONG getScaledSliderValue(const float& value)
-{
+static LONG getScaledSliderValue(const float& value) {
     return LONG(value * 0x8000);
 }
 
-void VJoyWrapper::setAxis(const VjoyAxis& axis, const float& value)
-{
-    switch (axis)
-    {
+void VJoyWrapper::setAxis(const VjoyAxis& axis, const float& value) {
+    switch (axis) {
         case VjoyAxis::x:
             m_joystickData.wAxisX = getScaledAxisValue(value);
             break;
@@ -107,13 +93,11 @@ void VJoyWrapper::setAxis(const VjoyAxis& axis, const float& value)
     }
 }
 
-void VJoyWrapper::sendInputs()
-{
+void VJoyWrapper::sendInputs() {
     m_updateVJD(m_joystickData.bDevice, m_joystickData);
 }
 
-int VJoyWrapper::setDLLPath(const std::string& dllPath)
-{
+int VJoyWrapper::setDLLPath(const std::string& dllPath) {
     if (m_vJoyDLL != nullptr)
         FreeLibrary(m_vJoyDLL);
 
@@ -130,16 +114,14 @@ int VJoyWrapper::setDLLPath(const std::string& dllPath)
     return 1;
 }
 
-void VJoyWrapper::setDeviceID(const UINT& deviceID)
-{
+void VJoyWrapper::setDeviceID(const UINT& deviceID) {
     if (m_isUsingVJoyDevice)
         m_relinquishVJD(m_joystickData.bDevice);
 
     m_isUsingVJoyDevice = true;
     m_joystickData.bDevice = BYTE(deviceID);
 
-    if (m_vJoyEnabled())
-    {
+    if (m_vJoyEnabled()) {
         m_acquireVJD(m_joystickData.bDevice);
     }
 }

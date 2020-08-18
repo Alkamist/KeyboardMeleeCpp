@@ -1,26 +1,22 @@
 #include "AnalogAxis.h"
 
-static float absoluteValue(const float& value)
-{
+static float absoluteValue(const float& value) {
     if (value < 0.0f) return -value;
     return value;
 }
 
-static float normalize(const float& value)
-{
+static float normalize(const float& value) {
     if (value > 0.0f) return 1.0f;
     if (value < 0.0f) return -1.0f;
     return value;
 }
 
-static float sign(const float& value)
-{
+static float sign(const float& value) {
     if (value < 0.0f) return -1.0f;
     return 1.0f;
 }
 
-static float getAxisValueFromStates(const bool& lowState, const bool& highState, const bool& highWasFirst)
-{
+static float getAxisValueFromStates(const bool& lowState, const bool& highState, const bool& highWasFirst) {
     bool lowAndHigh = lowState && highState;
     bool onlyLow = lowState && !highState;
     bool onlyHigh = highState && !lowState;
@@ -35,8 +31,7 @@ AnalogAxis::AnalogAxis(const float& deadZone)
     : m_deadZone(deadZone)
 {}
 
-void AnalogAxis::setValue(const float& value)
-{
+void AnalogAxis::setValue(const float& value) {
     m_previousValue = m_value;
     m_previousMagnitude = m_magnitude;
 
@@ -53,8 +48,7 @@ void AnalogAxis::setValue(const float& value)
                        || (m_value > 0.0f && m_previousValue <= 0.0f);
 }
 
-void AnalogAxis::setValueFromButtons(const Button& lowButton, const Button& highButton)
-{
+void AnalogAxis::setValueFromButtons(const Button& lowButton, const Button& highButton) {
     if (highButton.isPressed() && !lowButton.isPressed()) 
         m_highButtonWasPressedFirst = true;
     else if (lowButton.isPressed() && !highButton.isPressed())

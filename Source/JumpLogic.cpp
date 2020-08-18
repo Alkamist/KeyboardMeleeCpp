@@ -2,8 +2,7 @@
 
 #include "Millis.h"
 
-void JumpLogic::update(const bool& shortHopState, const bool& fullHopState)
-{
+void JumpLogic::update(const bool& shortHopState, const bool& fullHopState) {
     m_shortHopInput.setPressed(shortHopState);
     m_fullHopInput.setPressed(fullHopState);
 
@@ -11,15 +10,13 @@ void JumpLogic::update(const bool& shortHopState, const bool& fullHopState)
     // Short hop handling.
     bool startShortHop = m_shortHopInput.justPressed() || (m_isFullHopping && m_fullHopInput.justPressed());
 
-    if (startShortHop)
-    {
+    if (startShortHop) {
         m_shortHopOutput = true;
         m_isShortHopping = true;
         m_shortHopTime = millis();
     }
 
-    if (m_isShortHopping && millis() - m_shortHopTime >= 25)
-    {
+    if (m_isShortHopping && millis() - m_shortHopTime >= 25) {
         m_shortHopOutput = false;
         m_isShortHopping = false;
     }
@@ -28,15 +25,13 @@ void JumpLogic::update(const bool& shortHopState, const bool& fullHopState)
     // Full hop handling.
     bool startFullHop = m_fullHopInput.justPressed();
 
-    if (startFullHop)
-    {
+    if (startFullHop) {
         m_isFullHopping = true;
         m_fullHopOutput = true;
         m_fullHopTime = millis();
     }
 
-    if (m_isFullHopping && (!m_fullHopInput.isPressed()))
-    {
+    if (m_isFullHopping && (!m_fullHopInput.isPressed())) {
         if (millis() - m_fullHopTime >= 134)
             m_fullHopOutput = false;
 

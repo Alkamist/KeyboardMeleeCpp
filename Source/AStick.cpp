@@ -2,8 +2,7 @@
 
 #include "Millis.h"
 
-void AStick::update(const bool& neutral, const bool& left, const bool& right, const bool& down, const bool& up)
-{
+void AStick::update(const bool& neutral, const bool& left, const bool& right, const bool& down, const bool& up) {
     m_neutralButton.update(neutral);
     m_leftButton.update(left);
     m_rightButton.update(right);
@@ -13,28 +12,24 @@ void AStick::update(const bool& neutral, const bool& left, const bool& right, co
     bool turnAroundLeftTilt = m_leftButton.justPressed() && xAxis.getValue() > 0.0f;
     bool turnAroundRightTilt = m_rightButton.justPressed() && xAxis.getValue() < 0.0f;
 
-    if (turnAroundLeftTilt || turnAroundRightTilt)
-    {
+    if (turnAroundLeftTilt || turnAroundRightTilt) {
         m_activationTime = millis();
         outputButton.setDelay(34);
         m_axisHoldDuration = 67;
     }
-    else if (m_leftButton.justPressed() || m_rightButton.justPressed())
-    {
+    else if (m_leftButton.justPressed() || m_rightButton.justPressed()) {
         m_activationTime = millis();
         outputButton.setDelay(17);
         m_axisHoldDuration = 67;
     }
 
-    if (m_downButton.justPressed() || m_upButton.justPressed())
-    {
+    if (m_downButton.justPressed() || m_upButton.justPressed()) {
         m_activationTime = millis();
         outputButton.setDelay(0);
         m_axisHoldDuration = 67;
     }
 
-    if (m_neutralButton.justPressed())
-    {
+    if (m_neutralButton.justPressed()) {
         m_activationTime = millis();
         outputButton.setDelay(0);
         m_axisHoldDuration = 25;
@@ -49,8 +44,7 @@ void AStick::update(const bool& neutral, const bool& left, const bool& right, co
     m_outputStick.xAxis.setValueFromButtons(m_leftButton, m_rightButton);
     m_outputStick.yAxis.setValueFromButtons(m_downButton, m_upButton);
 
-    if (millis() - m_activationTime <= m_axisHoldDuration)
-    {
+    if (millis() - m_activationTime <= m_axisHoldDuration) {
         bool shouldBiasX = !(m_leftButton.isPressed() || m_rightButton.isPressed() || m_neutralButton.isPressed());
         float xBias = 0.0f;
         if (shouldBiasX)

@@ -9,8 +9,7 @@ bool Keyboard::blockKeyPresses = true;
 static std::array<bool, Keyboard::numberOfKeys> keyStates;
 std::array<Button, Keyboard::numberOfKeys> Keyboard::keys;
 
-static std::map<int, std::string> keyCodeNames
-{
+static std::map<int, std::string> keyCodeNames {
     { 1, "leftMouse" },
     { 2, "leftRight" },
     { 3, "controlBreak" },
@@ -157,7 +156,7 @@ static std::map<int, std::string> keyCodeNames
     { 182, "launchApplication1" },
     { 183, "launchApplication2" },
     { 186, ";" },
-    { 187, "+" },
+    { 187, "=" },
     { 188, "," },
     { 189, "-" },
     { 190, "." },
@@ -171,48 +170,41 @@ static std::map<int, std::string> keyCodeNames
 };
 static std::map<std::string, int> keyNameCodes;
 
-std::string Keyboard::getKeyName(const int& keyCode)
-{
+std::string Keyboard::getKeyName(const int& keyCode) {
     auto keyNotFound = keyCodeNames.find(keyCode) == keyCodeNames.end();
     if (keyNotFound)
         return std::to_string(keyCode);
     return keyCodeNames[keyCode];
 }
 
-int Keyboard::getKeyCode(const std::string& keyName)
-{
+int Keyboard::getKeyCode(const std::string& keyName) {
     auto keyNotFound = keyNameCodes.find(keyName) == keyNameCodes.end();
     if (keyNotFound)
         return -1;
     return keyNameCodes[keyName];
 }
 
-void Keyboard::initialize()
-{
+void Keyboard::initialize() {
     // Populate the inverted key name map.
     for (std::map<int, std::string>::iterator i = keyCodeNames.begin(); i != keyCodeNames.end(); ++i)
         keyNameCodes[i->second] = i->first;
 }
 
-static LRESULT CALLBACK KeyboardHook(int nCode, WPARAM wParam, LPARAM lParam)
-{
+static LRESULT CALLBACK KeyboardHook(int nCode, WPARAM wParam, LPARAM lParam) {
     int blockKeyPress = 0;
 
-    if (nCode == HC_ACTION)
-    {
+    if (nCode == HC_ACTION) {
         PKBDLLHOOKSTRUCT p = (PKBDLLHOOKSTRUCT)lParam;
         blockKeyPress = static_cast<int>(Keyboard::blockKeyPresses);
         unsigned long keyCode = p->vkCode;
 
-        if ((wParam == WM_KEYDOWN) || (wParam == WM_SYSKEYDOWN))
-        {
+        if ((wParam == WM_KEYDOWN) || (wParam == WM_SYSKEYDOWN)) {
             //auto keyName = Keyboard::getKeyName(keyCode);
             //std::cout << keyName << std::endl;
             //std::cout << Keyboard::getKeyCode(keyName) << std::endl;
             keyStates[keyCode] = true;
         }
-        else if ((wParam == WM_KEYUP) || (wParam == WM_SYSKEYUP))
-        {
+        else if ((wParam == WM_KEYUP) || (wParam == WM_SYSKEYUP)) {
             //std::cout << keyCode << std::endl;
             keyStates[keyCode] = false;
         }
@@ -226,8 +218,7 @@ static LRESULT CALLBACK KeyboardHook(int nCode, WPARAM wParam, LPARAM lParam)
 
 static HHOOK keyboardHook = SetWindowsHookEx(WH_KEYBOARD_LL, KeyboardHook, 0, 0);
 
-void Keyboard::update()
-{
+void Keyboard::update() {
     MSG msg;
     //GetMessage(&msg, NULL, NULL, NULL);
     PeekMessage(&msg, NULL, NULL, NULL, NULL);

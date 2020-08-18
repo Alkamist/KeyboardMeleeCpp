@@ -7,18 +7,15 @@ DelayedButton::DelayedButton(const unsigned long& delay, const unsigned long& mi
       m_minimumHoldTime(minimumHoldTime)
 {}
 
-void DelayedButton::update(const bool& inputState)
-{
+void DelayedButton::update(const bool& inputState) {
     m_inputButton.setPressed(inputState);
 
-    if (m_inputButton.justPressed())
-    {
+    if (m_inputButton.justPressed()) {
         m_shouldPress = true;
         m_inputPressTime = millis();
     }
 
-    if (m_shouldPress && millis() - m_inputPressTime >= m_delay)
-    {
+    if (m_shouldPress && millis() - m_inputPressTime >= m_delay) {
         m_outputPressTime = millis();
         m_shouldPress = false;
         m_outputPressState = true;

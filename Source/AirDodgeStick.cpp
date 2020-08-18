@@ -2,8 +2,7 @@
 
 #include "Millis.h"
 
-void AirDodgeStick::update(const bool& airDodgeState, const bool& shortenState)
-{
+void AirDodgeStick::update(const bool& airDodgeState, const bool& shortenState) {
     m_airDodgeInput.setPressed(airDodgeState);
 
     bool isLeft = xAxis.isActive() && xAxis.getValue() < 0.0f;
@@ -17,38 +16,30 @@ void AirDodgeStick::update(const bool& airDodgeState, const bool& shortenState)
     bool airDodgeMedium = isSideways && shortenState;
     bool airDodgeLong = isSideways && !shortenState;
 
-    if (m_airDodgeInput.justPressed())
-    {
+    if (m_airDodgeInput.justPressed()) {
         m_isAirDodging = true;
         m_airDodgeTime = millis();
     }
 
-    if (m_isAirDodging && !isUp)
-    {
-        if (millis() - m_airDodgeTime < 51)
-        {
-            if (airDodgeLong)
-            {
+    if (m_isAirDodging && !isUp) {
+        if (millis() - m_airDodgeTime < 51) {
+            if (airDodgeLong) {
                 xAxis.setValue(xAxis.getNormalizedValue() * m_xLevelLong);
                 yAxis.setValue(m_yLevelLong);
             }
-            else if (airDodgeMedium)
-            {
+            else if (airDodgeMedium) {
                 xAxis.setValue(xAxis.getNormalizedValue() * m_xLevelMedium);
                 yAxis.setValue(m_yLevelMedium);
             }
-            else if (airDodgeShort)
-            {
+            else if (airDodgeShort) {
                 xAxis.setValue(xAxis.getNormalizedValue() * m_xLevelShort);
                 yAxis.setValue(m_yLevelShort);
             }
-            else if (!isDown)
-            {
+            else if (!isDown) {
                 yAxis.setValue(-0.3f);
             }
         }
-        else
-        {
+        else {
             m_isAirDodging = false;
         }
     }

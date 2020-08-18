@@ -8,12 +8,9 @@
 auto vJoyWrapper = VJoyWrapper();
 auto controller = KeyboardMeleeController();
 
-int main()
-{
-    if (vJoyWrapper.loadedProperly())
-    {
-        while (1)
-        {
+int main() {
+    if (vJoyWrapper.loadedProperly()) {
+        while (1) {
             controller.update();
             const auto& controllerState = controller.getState();
 
