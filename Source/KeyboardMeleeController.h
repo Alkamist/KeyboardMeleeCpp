@@ -16,6 +16,8 @@ public:
     void bindKey(const int& keyCode, const int& actionID);
     void unbindKey(const int& keyCode, const int& actionID);
 
+    bool isUsingB0XXMapping() const { return m_useB0XXMapping; }
+
     const std::string getConfigString();
     void loadConfigFromString(const std::string& saveString);
     void loadConfigFromFile(const std::string& fileName);
@@ -30,6 +32,7 @@ public:
 
 private:
     bool m_isEnabled{ true };
+    bool m_useB0XXMapping{ true };
     BindList m_actionKeys[DigitalMeleeController::numberOfActions];
     int m_toggleControllerKeyCode{ 112 };
     DigitalMeleeController m_controller;

@@ -101,6 +101,7 @@ const std::string KeyboardMeleeController::getConfigString() {
     jsonObject["useShortHopMacro"] = m_controller.isUsingShortHopMacro();
     jsonObject["useCStickTilting"] = m_controller.isUsingCStickTilting();
     jsonObject["useExtraBButtons"] = m_controller.isUsingExtraBButtons();
+    jsonObject["useB0XXMapping"] = m_useB0XXMapping;
 
     return jsonObject.dump(4);
 }
@@ -159,6 +160,7 @@ void KeyboardMeleeController::loadDefaultConfig() {
     bindKey(161, m_controller.Action_invertXAxis);
 
     m_toggleControllerKeyCode = 112;
+    m_useB0XXMapping = true;
     m_controller.setUseCStickTilting(true);
     m_controller.setUseExtraBButtons(true);
 }
@@ -204,6 +206,10 @@ void KeyboardMeleeController::loadConfigFromString(const std::string& saveString
     auto noExtraBButtonsOption = jsonObject.find("useExtraBButtons") == jsonObject.end();
     if (!noExtraBButtonsOption)
         m_controller.setUseExtraBButtons(jsonObject["useExtraBButtons"]);
+
+    auto noB0XXMappingOption = jsonObject.find("useB0XXMapping") == jsonObject.end();
+    if (!noB0XXMappingOption)
+        m_useB0XXMapping = jsonObject["useB0XXMapping"];
 }
 
 void KeyboardMeleeController::loadConfigFromFile(const std::string& fileName) {
